@@ -1,245 +1,163 @@
-import { useState } from 'react';
 import Head from 'next/head';
-import EditorialLayout from '../components/EditorialLayout';
-import EditorialHero from '../components/EditorialHero';
-import EditorialArticleCard from '../components/EditorialArticleCard';
-import { ChevronRight } from 'lucide-react';
-import Link from 'next/link';
+import ProfessionalLayout from '../components/ProfessionalLayout';
+import CategoryNav from '../components/CategoryNav';
+import FeaturedHero from '../components/FeaturedHero';
+import ProfessionalArticleCard from '../components/ProfessionalArticleCard';
+import ProfessionalSidebar from '../components/ProfessionalSidebar';
 
-// Demo data
+// Demo articles with enhanced data
 const articles = [
   {
     id: '1',
-    title: 'Samsung Galaxy S24 Ultra Review: Android Perfection at a Price',
-    slug: 'samsung-galaxy-s24-ultra-review',
-    excerpt: 'Samsung\'s latest flagship nails almost everything, but at £1,249, it\'s asking UK buyers to dig deep. We tested it for a month to see if it\'s worth it.',
-    category: 'smartphones',
+    title: 'GPT-5 vs Claude 4: Which AI Assistant Should You Choose?',
+    slug: 'gpt-5-vs-claude-4-comparison',
+    excerpt: 'We put the latest language models through rigorous real-world tests across coding, writing, analysis, and reasoning tasks. The results surprised even our AI experts.',
+    category: 'AI Tools',
     author: 'Michael Torres',
     verdict: 'BEST OVERALL',
+    rating: '4.8',
+    price: 'From $20/mo',
+    quickVerdict: {
+      pros: ['Superior reasoning', 'Better context handling'],
+      cons: ['Higher cost', 'Slower responses']
+    },
     published_date: new Date().toISOString()
   },
   {
     id: '2',
-    title: 'MacBook Air M3 vs Dell XPS 13: The Ultimate Ultrabook Battle',
-    slug: 'macbook-air-m3-vs-dell-xps-13',
-    excerpt: 'We put the two best ultrabooks through real-world tests. The winner might surprise you, especially when you factor in UK pricing.',
-    category: 'laptops',
+    title: 'GitHub Copilot X Review: The Future of Pair Programming',
+    slug: 'github-copilot-x-review',
+    excerpt: 'Microsoft\'s AI coding assistant promises to write entire functions from comments. We tested it on production code across 5 languages to see if it delivers.',
+    category: 'Developer Tools',
     author: 'Alex Kim',
     verdict: 'RECOMMENDED',
+    rating: '4.5',
+    price: '$19/mo',
+    quickVerdict: {
+      pros: ['Excellent autocomplete', 'IDE integration'],
+      cons: ['Language limitations', 'Requires fine-tuning']
+    },
     published_date: new Date().toISOString()
   },
   {
     id: '3',
-    title: 'Sony WH-1000XM5: Still the Noise-Cancelling King?',
-    slug: 'sony-wh-1000xm5-review',
-    excerpt: 'After Bose\'s latest challenge, we retested Sony\'s flagship headphones. Here\'s whether they\'re still worth £380.',
-    category: 'audio',
+    title: 'Notion AI vs Obsidian: Smart Note-Taking Showdown',
+    slug: 'notion-ai-vs-obsidian',
+    excerpt: 'Both promise to revolutionize how you organize information with AI assistance. Our month-long test reveals which actually helps you think better.',
+    category: 'Productivity',
     author: 'Emma Davis',
-    verdict: 'RECOMMENDED',
+    verdict: 'EDITOR\'S CHOICE',
+    rating: '4.7',
+    price: '$8-16/mo',
+    quickVerdict: {
+      pros: ['AI summarization', 'Cross-platform sync'],
+      cons: ['Learning curve', 'Limited offline AI']
+    },
     published_date: new Date().toISOString()
   },
   {
     id: '4',
-    title: 'PS5 Pro: Don\'t Buy It (Yet)',
-    slug: 'ps5-pro-review',
-    excerpt: 'Sony\'s mid-gen refresh costs £700 in the UK. We explain why patience will save you hundreds.',
-    category: 'gaming',
-    author: 'James Wilson',
-    verdict: 'AVOID',
+    title: '1Password vs Bitwarden: Ultimate Security Showdown',
+    slug: '1password-vs-bitwarden-2025',
+    excerpt: 'We tested both password managers with security experts to find out which one actually keeps your data safer in 2025.',
+    category: 'Security Tools',
+    author: 'Sarah Chen',
+    verdict: 'RECOMMENDED',
+    rating: '4.6',
+    price: 'From $3/mo',
+    quickVerdict: {
+      pros: ['Zero-knowledge encryption', 'Cross-platform support'],
+      cons: ['Complex setup', 'Premium features locked']
+    },
     published_date: new Date().toISOString()
   },
   {
     id: '5',
-    title: 'Best Budget Smartphones Under £300: 2025 Edition',
-    slug: 'best-budget-phones-2025',
-    excerpt: 'We tested 15 budget phones to find the ones that don\'t feel cheap. Our top pick costs just £249.',
-    category: 'smartphones',
+    title: 'Midjourney 6 Review: Is AI Art Finally Professional-Grade?',
+    slug: 'midjourney-6-review',
+    excerpt: 'After generating 1,000+ images for commercial projects, we can definitively answer whether Midjourney is ready for professional use.',
+    category: 'AI Tools',
     author: 'Rachel Green',
     verdict: 'GOOD VALUE',
+    rating: '4.4',
+    price: '$10-30/mo',
+    quickVerdict: {
+      pros: ['Stunning image quality', 'Fast generation'],
+      cons: ['Inconsistent styles', 'Discord-only interface']
+    },
     published_date: new Date().toISOString()
   }
 ];
 
-const trending = [
-  {
-    title: 'Apple Vision Pro UK Launch: Everything You Need to Know',
-    category: 'Wearables',
-    slug: 'apple-vision-pro-uk-launch'
-  },
-  {
-    title: 'The Complete Guide to Black Friday Tech Deals',
-    category: 'Guides',
-    slug: 'black-friday-tech-guide-2025'
-  },
-  {
-    title: 'Best Mesh WiFi Systems for UK Homes',
-    category: 'Smart Home',
-    slug: 'best-mesh-wifi-uk'
-  },
-  {
-    title: 'Steam Deck OLED Long-Term Review',
-    category: 'Gaming',
-    slug: 'steam-deck-oled-review'
-  },
-  {
-    title: 'Why I Switched from iPhone to Android (And Back)',
-    category: 'Opinion',
-    slug: 'iphone-to-android-switch'
-  }
-];
-
-export default function EditorialHome() {
-  const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
-
-  const handleSubscribe = (e) => {
-    e.preventDefault();
-    setSubscribed(true);
-    setTimeout(() => {
-      setSubscribed(false);
-      setEmail('');
-    }, 3000);
-  };
-
+export default function Home() {
   return (
-    <EditorialLayout>
+    <ProfessionalLayout>
       <Head>
-        <title>AI-Reviewed | UK Tech Reviews That Actually Tell the Truth</title>
-        <meta name="description" content="Independent tech reviews by UK experts. We buy everything we test, accept no free products, and tell you exactly what's worth your money." />
+        <title>AI-Reviewed | Independent Tech Reviews You Can Trust</title>
+        <meta name="description" content="We buy all products with our own funds, test them extensively, and tell you exactly what's worth your money. No sponsored content, ever." />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <EditorialHero />
+      {/* Breadcrumbs */}
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 text-sm text-gray-500 dark:text-gray-400">
+        <a href="/" className="hover:text-gray-700 dark:hover:text-gray-300">Home</a> / <a href="/" className="hover:text-gray-700 dark:hover:text-gray-300">Reviews</a> / All Reviews
+      </nav>
 
-      {/* Main Content Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Article List */}
-          <div className="lg:col-span-2 space-y-6">
-            {articles.map((article) => (
-              <EditorialArticleCard key={article.id} article={article} />
-            ))}
-            
-            {/* Load More */}
-            <div className="text-center pt-8">
-              <button className="px-8 py-3 bg-white border-2 border-gray-900 text-gray-900 font-semibold rounded hover:bg-gray-900 hover:text-white transition-colors">
-                Load More Reviews
-              </button>
-            </div>
-          </div>
+      {/* Category Navigation */}
+      <CategoryNav activeCategory="all" />
 
-          {/* Sidebar */}
-          <aside className="space-y-8">
-            {/* Trending */}
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-600 mb-4">
-                Trending Now
-              </h3>
-              <ul className="space-y-4">
-                {trending.map((item, index) => (
-                  <li key={index} className="pb-4 border-b border-gray-200 last:border-0 last:pb-0">
-                    <Link href={`/article/${item.slug}`} className="group">
-                      <h4 className="font-medium text-gray-900 group-hover:text-blue-600 transition-colors leading-tight">
-                        {item.title}
-                      </h4>
-                      <span className="text-xs text-gray-500 mt-1">{item.category}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Newsletter */}
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">
-                Get Our Best Reviews
-              </h3>
-              <p className="text-sm text-gray-600 mb-4">
-                Weekly digest of our most helpful tech reviews and buying guides.
-              </p>
-              <form onSubmit={handleSubscribe} className="space-y-3">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Your email address"
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-                <button
-                  type="submit"
-                  className={`w-full py-2 rounded-md text-sm font-medium transition-colors ${
-                    subscribed 
-                      ? 'bg-green-600 text-white' 
-                      : 'bg-blue-600 text-white hover:bg-blue-700'
-                  }`}
-                >
-                  {subscribed ? '✓ Subscribed!' : 'Subscribe Free'}
-                </button>
-              </form>
-            </div>
-
-            {/* About */}
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">
-                Why Trust Us
-              </h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                We spend hundreds of hours testing tech so you don't have to. We buy everything with our own money and never accept free products from manufacturers.
-              </p>
-              <Link href="/about" className="text-sm text-blue-600 font-medium mt-3 inline-flex items-center hover:gap-2 gap-1 transition-all">
-                Learn more <ChevronRight className="h-3 w-3" />
-              </Link>
-            </div>
-
-            {/* Quick Stats */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-blue-900 mb-4">
-                ARIA's Promise
-              </h3>
-              <ul className="space-y-2 text-sm text-blue-900">
-                <li className="flex items-center gap-2">
-                  <span className="text-green-600">✓</span> 127,000+ UK readers trust us
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-green-600">✓</span> Real UK prices, updated daily
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-green-600">✓</span> No sponsored content ever
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-green-600">✓</span> Brexit import warnings included
-                </li>
-              </ul>
-            </div>
-          </aside>
+      {/* Filter Bar */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <p className="text-gray-600 dark:text-gray-400 text-sm">Showing 247 reviews</p>
+        <div className="flex gap-4">
+          <select className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white cursor-pointer">
+            <option>Most Recent</option>
+            <option>Highest Rated</option>
+            <option>Most Popular</option>
+            <option>Price: Low to High</option>
+            <option>Price: High to Low</option>
+          </select>
+          <select className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white cursor-pointer">
+            <option>All Time</option>
+            <option>2025</option>
+            <option>2024</option>
+            <option>Last 6 Months</option>
+          </select>
         </div>
       </div>
 
-      {/* Newsletter CTA Section */}
-      <section className="bg-gray-900 text-white py-16 mt-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Stop Wasting Money on Tech That Disappoints
-          </h2>
-          <p className="text-lg text-gray-300 mb-8">
-            Join 127,000+ UK buyers getting honest tech advice every week
-          </p>
-          <form onSubmit={handleSubscribe} className="max-w-md mx-auto flex gap-4">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
-              required
-            />
-            <button
-              type="submit"
-              className="px-6 py-3 bg-white text-gray-900 font-semibold rounded-md hover:bg-gray-100 transition-colors"
-            >
-              Get Updates
-            </button>
-          </form>
+      {/* Featured Hero */}
+      <FeaturedHero />
+
+      {/* Main Content Grid */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+          {/* Article List */}
+          <section className="space-y-6">
+            {/* Affiliate Disclosure */}
+            <div className="affiliate-disclosure">
+              <span className="disclosure-icon">ℹ️</span>
+              <p>AI-Reviewed is supported by its audience. When you purchase through links on our site, we may earn an affiliate commission at no additional cost to you. <a href="/disclosure" className="text-blue-600 dark:text-blue-400 hover:underline">Learn more</a></p>
+            </div>
+
+            {/* Article Cards */}
+            {articles.map((article) => (
+              <ProfessionalArticleCard key={article.id} article={article} />
+            ))}
+
+            {/* Load More */}
+            <div className="text-center pt-8">
+              <button className="bg-white dark:bg-gray-800 border-2 border-gray-900 dark:border-white text-gray-900 dark:text-white px-8 py-3 rounded-md font-semibold hover:bg-gray-900 dark:hover:bg-white hover:text-white dark:hover:text-gray-900 transition-all">
+                Load More Reviews
+              </button>
+            </div>
+          </section>
+
+          {/* Sidebar */}
+          <ProfessionalSidebar />
         </div>
-      </section>
-    </EditorialLayout>
+      </main>
+    </ProfessionalLayout>
   );
 }
