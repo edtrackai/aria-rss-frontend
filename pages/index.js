@@ -131,8 +131,8 @@ export default function Home() {
       <FeaturedHero />
 
       {/* Main Content Grid */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" id="main">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8">
           {/* Article List */}
           <section className="space-y-6">
             {/* Affiliate Disclosure */}

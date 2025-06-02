@@ -113,7 +113,7 @@ export default function ProfessionalSidebar() {
                     <span>{item.comments} comments</span>
                   </div>
                 </div>
-                <div className="w-15 h-15 rounded flex-shrink-0 overflow-hidden">
+                <div className="w-16 h-16 rounded flex-shrink-0 overflow-hidden">
                   {item.image ? (
                     <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
                   ) : (

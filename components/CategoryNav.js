@@ -44,11 +44,11 @@ export default function CategoryNav({ activeCategory = 'all' }) {
   };
   
   return (
-    <div className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-[73px] z-40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-[120px] sm:top-[140px] z-40">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
         <div 
           ref={containerRef}
-          className="flex gap-4 overflow-x-auto scrollbar-hide cursor-grab"
+          className="flex gap-3 overflow-x-auto scrollbar-hide cursor-grab -mx-4 px-4 sm:mx-0 sm:px-0"
           onMouseDown={handleMouseDown}
           onMouseLeave={handleMouseLeave}
           onMouseUp={handleMouseUp}

@@ -35,24 +35,24 @@ export default function ProfessionalLayout({ children }) {
       <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 shadow-sm">
         <div className="border-b border-gray-200 dark:border-gray-700">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-            <div className="flex items-center justify-between">
-              <div>
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex-shrink-0">
                 <div className="flex items-baseline gap-2">
-                  <Link href="/" className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
+                  <Link href="/" className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
                     AI-Reviewed
                   </Link>
-                  <span className="text-xs text-gray-500 dark:text-gray-400 italic">Est. 2020</span>
+                  <span className="hidden sm:inline text-xs text-gray-500 dark:text-gray-400 italic">Est. 2020</span>
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400 italic">Independent tech reviews you can trust</p>
+                <p className="hidden sm:block text-sm text-gray-600 dark:text-gray-400 italic">Independent tech reviews you can trust</p>
               </div>
               
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 sm:gap-4">
                 {/* Search */}
-                <div className="hidden md:block relative">
+                <div className="hidden lg:block relative">
                   <input 
                     type="search" 
                     placeholder="Search reviews..." 
-                    className="w-80 px-4 py-2 pr-10 border border-gray-300 dark:border-gray-600 rounded-md text-sm focus:outline-none focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    className="w-64 xl:w-80 px-4 py-2 pr-10 border border-gray-300 dark:border-gray-600 rounded-md text-sm focus:outline-none focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                   />
                   <button className="absolute right-3 top-2.5 text-gray-400">
                     🔍
