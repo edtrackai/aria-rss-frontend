@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { 
@@ -19,53 +19,48 @@ import {
 } from 'lucide-react';
 
 export default function AffiliateManager() {
-  const [affiliateLinks, setAffiliateLinks] = useState([
-    {
-      id: 1,
-      product: 'GitHub Copilot',
-      merchant: 'GitHub',
-      originalUrl: 'https://github.com/features/copilot',
-      affiliateUrl: 'https://github.com/features/copilot?ref=aireviewed',
-      shortUrl: 'https://ai-reviewed.com/go/github-copilot',
-      commission: '30%',
-      clicks: 2341,
-      conversions: 87,
-      revenue: '$1,740',
-      status: 'active',
-      expiresAt: '2025-12-31',
-      lastChecked: '2025-02-06'
-    },
-    {
-      id: 2,
-      product: 'Claude Pro',
-      merchant: 'Anthropic',
-      originalUrl: 'https://claude.ai/pro',
-      affiliateUrl: 'https://claude.ai/pro?partner=aireviewed',
-      shortUrl: 'https://ai-reviewed.com/go/claude-pro',
-      commission: '$10 per signup',
-      clicks: 1876,
-      conversions: 62,
-      revenue: '$620',
-      status: 'active',
-      expiresAt: '2025-08-15',
-      lastChecked: '2025-02-06'
-    },
-    {
-      id: 3,
-      product: 'Notion AI',
-      merchant: 'Notion',
-      originalUrl: 'https://notion.so/ai',
-      affiliateUrl: 'https://notion.so/ai?ref=aireviewed123',
-      shortUrl: 'https://ai-reviewed.com/go/notion-ai',
-      commission: '20%',
-      clicks: 1543,
-      conversions: 45,
-      revenue: '$450',
-      status: 'active',
-      expiresAt: '2025-06-30',
-      lastChecked: '2025-02-05'
+  const [affiliateLinks, setAffiliateLinks] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch affiliate links on component mount
+  useEffect(() => {
+    fetchAffiliateLinks();
+  }, []);
+
+  const fetchAffiliateLinks = async () => {
+    try {
+      const response = await fetch('/api/affiliate-links');
+      if (response.ok) {
+        const data = await response.json();
+        setAffiliateLinks(data);
+      } else {
+        // Use demo data if no real data
+        setAffiliateLinks([
+          {
+            id: 1,
+            product: 'GitHub Copilot',
+            merchant: 'GitHub',
+            original_url: 'https://github.com/features/copilot',
+            affiliate_url: 'https://github.com/features/copilot?ref=aireviewed',
+            short_url: 'https://ai-reviewed.com/go/github-copilot',
+            commission: '30%',
+            clicks: 2341,
+            conversions: 87,
+            revenue: 1740,
+            status: 'active',
+            expires_at: '2025-12-31',
+            last_checked: '2025-02-06'
+          }
+        ]);
+      }
+    } catch (error) {
+      console.error('Error fetching affiliate links:', error);
+      // Use demo data on error
+      setAffiliateLinks([]);
+    } finally {
+      setLoading(false);
     }
-  ]);
+  };
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -88,28 +83,40 @@ export default function AffiliateManager() {
   });
 
   // Add new affiliate link
-  const addAffiliateLink = () => {
-    const shortUrl = `https://ai-reviewed.com/go/${newLink.product.toLowerCase().replace(/\s+/g, '-')}`;
-    const newAffiliateLink = {
-      ...newLink,
-      id: Date.now(),
-      shortUrl,
-      clicks: 0,
-      conversions: 0,
-      revenue: '$0',
-      status: 'active',
-      lastChecked: new Date().toISOString().split('T')[0]
-    };
-    setAffiliateLinks([...affiliateLinks, newAffiliateLink]);
-    setShowAddModal(false);
-    setNewLink({
-      product: '',
-      merchant: '',
-      originalUrl: '',
-      affiliateUrl: '',
-      commission: '',
-      expiresAt: ''
-    });
+  const addAffiliateLink = async () => {
+    try {
+      const response = await fetch('/api/affiliate-links', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...newLink,
+          status: 'active',
+          last_checked: new Date().toISOString()
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add affiliate link');
+      }
+
+      const newAffiliateLink = await response.json();
+      setAffiliateLinks([newAffiliateLink, ...affiliateLinks]);
+      setShowAddModal(false);
+      setNewLink({
+        product: '',
+        merchant: '',
+        originalUrl: '',
+        affiliateUrl: '',
+        commission: '',
+        expiresAt: ''
+      });
+      alert('Affiliate link added successfully!');
+    } catch (error) {
+      console.error('Error adding affiliate link:', error);
+      alert('Error adding affiliate link. Please try again.');
+    }
   };
 
   // Check link status
@@ -290,7 +297,7 @@ export default function AffiliateManager() {
                           {link.merchant}
                         </div>
                         <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                          {link.shortUrl}
+                          {link.short_url || link.shortUrl}
                         </div>
                       </div>
                     </td>
@@ -338,7 +345,7 @@ export default function AffiliateManager() {
                           {link.status}
                         </span>
                         <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                          Expires: {link.expiresAt}
+                          Expires: {link.expires_at || link.expiresAt}
                         </div>
                       </div>
                     </td>

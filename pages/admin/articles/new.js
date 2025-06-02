@@ -157,10 +157,34 @@ export default function NewArticle() {
 
   // Save article
   const saveArticle = async (status = 'draft') => {
-    // In production, save to database
-    console.log('Saving article:', { ...article, status });
-    alert(`Article ${status === 'published' ? 'published' : 'saved as draft'} successfully!`);
-    router.push('/admin');
+    try {
+      const articleData = {
+        ...article,
+        status,
+        quick_verdict_pros: article.quickVerdict.pros.filter(p => p),
+        quick_verdict_cons: article.quickVerdict.cons.filter(c => c),
+        published_at: status === 'published' ? new Date().toISOString() : null
+      };
+
+      const response = await fetch('/api/articles', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(articleData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save article');
+      }
+
+      const savedArticle = await response.json();
+      alert(`Article ${status === 'published' ? 'published' : 'saved as draft'} successfully!`);
+      router.push('/admin');
+    } catch (error) {
+      console.error('Error saving article:', error);
+      alert('Error saving article. Please try again.');
+    }
   };
 
   return (
