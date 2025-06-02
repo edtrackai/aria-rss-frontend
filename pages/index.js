@@ -1,236 +1,245 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Head from 'next/head';
+import EditorialLayout from '../components/EditorialLayout';
+import EditorialHero from '../components/EditorialHero';
+import EditorialArticleCard from '../components/EditorialArticleCard';
+import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-import useSWR from 'swr';
-import { format } from 'date-fns';
-import Layout from '../components/Layout';
-import ArticleCard from '../components/ArticleCard';
-import TrendingTopics from '../components/TrendingTopics';
-import SourcesList from '../components/SourcesList';
-import Newsletter from '../components/Newsletter';
-import HeroSection from '../components/HeroSection';
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+// Demo data
+const articles = [
+  {
+    id: '1',
+    title: 'Samsung Galaxy S24 Ultra Review: Android Perfection at a Price',
+    slug: 'samsung-galaxy-s24-ultra-review',
+    excerpt: 'Samsung\'s latest flagship nails almost everything, but at £1,249, it\'s asking UK buyers to dig deep. We tested it for a month to see if it\'s worth it.',
+    category: 'smartphones',
+    author: 'Michael Torres',
+    verdict: 'BEST OVERALL',
+    published_date: new Date().toISOString()
+  },
+  {
+    id: '2',
+    title: 'MacBook Air M3 vs Dell XPS 13: The Ultimate Ultrabook Battle',
+    slug: 'macbook-air-m3-vs-dell-xps-13',
+    excerpt: 'We put the two best ultrabooks through real-world tests. The winner might surprise you, especially when you factor in UK pricing.',
+    category: 'laptops',
+    author: 'Alex Kim',
+    verdict: 'RECOMMENDED',
+    published_date: new Date().toISOString()
+  },
+  {
+    id: '3',
+    title: 'Sony WH-1000XM5: Still the Noise-Cancelling King?',
+    slug: 'sony-wh-1000xm5-review',
+    excerpt: 'After Bose\'s latest challenge, we retested Sony\'s flagship headphones. Here\'s whether they\'re still worth £380.',
+    category: 'audio',
+    author: 'Emma Davis',
+    verdict: 'RECOMMENDED',
+    published_date: new Date().toISOString()
+  },
+  {
+    id: '4',
+    title: 'PS5 Pro: Don\'t Buy It (Yet)',
+    slug: 'ps5-pro-review',
+    excerpt: 'Sony\'s mid-gen refresh costs £700 in the UK. We explain why patience will save you hundreds.',
+    category: 'gaming',
+    author: 'James Wilson',
+    verdict: 'AVOID',
+    published_date: new Date().toISOString()
+  },
+  {
+    id: '5',
+    title: 'Best Budget Smartphones Under £300: 2025 Edition',
+    slug: 'best-budget-phones-2025',
+    excerpt: 'We tested 15 budget phones to find the ones that don\'t feel cheap. Our top pick costs just £249.',
+    category: 'smartphones',
+    author: 'Rachel Green',
+    verdict: 'GOOD VALUE',
+    published_date: new Date().toISOString()
+  }
+];
 
-export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  
-  // Fetch latest articles
-  const { data: articlesData, error: articlesError } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/articles/published?limit=12`,
-    fetcher,
-    { refreshInterval: 60000 } // Refresh every minute
-  );
-  
-  // Fetch trending topics
-  const { data: topicsData, error: topicsError } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/topics/trending?limit=5`,
-    fetcher,
-    { refreshInterval: 300000 } // Refresh every 5 minutes
-  );
-  
-  // Fetch system stats
-  const { data: statsData } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/stats`,
-    fetcher,
-    { refreshInterval: 300000 }
-  );
-  
-  const articles = articlesData?.articles || [];
-  const topics = topicsData?.topics || [];
-  const stats = statsData || {};
-  
-  // Filter articles by category
-  const filteredArticles = selectedCategory === 'all' 
-    ? articles 
-    : articles.filter(article => article.category === selectedCategory);
-  
-  const categories = [
-    { id: 'all', name: 'All Tech', emoji: '🔍' },
-    { id: 'smartphones', name: 'Smartphones', emoji: '📱' },
-    { id: 'laptops', name: 'Laptops', emoji: '💻' },
-    { id: 'audio', name: 'Audio', emoji: '🎧' },
-    { id: 'gaming', name: 'Gaming', emoji: '🎮' },
-    { id: 'wearables', name: 'Wearables', emoji: '⌚' },
-    { id: 'smart_home', name: 'Smart Home', emoji: '🏠' }
-  ];
-  
+const trending = [
+  {
+    title: 'Apple Vision Pro UK Launch: Everything You Need to Know',
+    category: 'Wearables',
+    slug: 'apple-vision-pro-uk-launch'
+  },
+  {
+    title: 'The Complete Guide to Black Friday Tech Deals',
+    category: 'Guides',
+    slug: 'black-friday-tech-guide-2025'
+  },
+  {
+    title: 'Best Mesh WiFi Systems for UK Homes',
+    category: 'Smart Home',
+    slug: 'best-mesh-wifi-uk'
+  },
+  {
+    title: 'Steam Deck OLED Long-Term Review',
+    category: 'Gaming',
+    slug: 'steam-deck-oled-review'
+  },
+  {
+    title: 'Why I Switched from iPhone to Android (And Back)',
+    category: 'Opinion',
+    slug: 'iphone-to-android-switch'
+  }
+];
+
+export default function EditorialHome() {
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    setSubscribed(true);
+    setTimeout(() => {
+      setSubscribed(false);
+      setEmail('');
+    }, 3000);
+  };
+
   return (
-    <Layout>
+    <EditorialLayout>
       <Head>
-        <title>ARIA Tech - UK's Most Trusted Tech Reviews | AI-Reviewed.com</title>
-        <meta 
-          name="description" 
-          content="Stop wasting money on tech that disappoints. ARIA analyzes thousands of reviews to bring you honest UK tech buying advice. Real prices from Currys, Argos & more." 
-        />
-        <meta property="og:title" content="ARIA Tech - UK's Most Trusted Tech Reviews" />
-        <meta property="og:description" content="Stop wasting money on tech that disappoints. Real UK prices, Brexit warnings & honest reviews." />
-        <meta property="og:image" content="/aria-og-image.png" />
-        <meta property="og:url" content="https://ai-reviewed.com" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <link rel="canonical" href="https://ai-reviewed.com" />
+        <title>AI-Reviewed | UK Tech Reviews That Actually Tell the Truth</title>
+        <meta name="description" content="Independent tech reviews by UK experts. We buy everything we test, accept no free products, and tell you exactly what's worth your money." />
       </Head>
-      
-      {/* Hero Section */}
-      <HeroSection stats={stats} />
-      
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          
-          {/* Main Feed - 3 columns */}
-          <div className="lg:col-span-3">
+
+      <EditorialHero />
+
+      {/* Main Content Grid */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Article List */}
+          <div className="lg:col-span-2 space-y-6">
+            {articles.map((article) => (
+              <EditorialArticleCard key={article.id} article={article} />
+            ))}
             
-            {/* Category Filter */}
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Latest Tech Analysis</h2>
-              <div className="flex flex-wrap gap-2">
-                {categories.map(cat => (
-                  <button
-                    key={cat.id}
-                    onClick={() => setSelectedCategory(cat.id)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                      selectedCategory === cat.id
-                        ? 'bg-aria-secondary text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                  >
-                    <span className="mr-1">{cat.emoji}</span>
-                    {cat.name}
-                  </button>
-                ))}
-              </div>
+            {/* Load More */}
+            <div className="text-center pt-8">
+              <button className="px-8 py-3 bg-white border-2 border-gray-900 text-gray-900 font-semibold rounded hover:bg-gray-900 hover:text-white transition-colors">
+                Load More Reviews
+              </button>
             </div>
-            
-            {/* Articles Grid */}
-            {articlesError ? (
-              <div className="text-center py-12">
-                <p className="text-red-600">Bloody hell, something went wrong loading articles!</p>
-              </div>
-            ) : !articles.length ? (
-              <div className="text-center py-12">
-                <div className="animate-pulse">
-                  <div className="h-64 bg-gray-200 rounded-lg mb-4"></div>
-                  <div className="h-64 bg-gray-200 rounded-lg mb-4"></div>
-                </div>
-              </div>
-            ) : (
-              <>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                  {filteredArticles.slice(0, 6).map((article) => (
-                    <ArticleCard key={article.id} article={article} featured={false} />
-                  ))}
-                </div>
-                
-                {filteredArticles.length > 6 && (
-                  <>
-                    {/* Newsletter CTA */}
-                    <Newsletter />
-                    
-                    {/* More Articles */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-                      {filteredArticles.slice(6).map((article) => (
-                        <ArticleCard key={article.id} article={article} featured={false} />
-                      ))}
-                    </div>
-                  </>
-                )}
-                
-                {filteredArticles.length === 0 && (
-                  <div className="text-center py-12">
-                    <p className="text-gray-600">No articles in this category yet. Check back soon!</p>
-                  </div>
-                )}
-              </>
-            )}
           </div>
-          
-          {/* Sidebar - 1 column */}
-          <div className="lg:col-span-1">
-            
-            {/* Trending Topics */}
-            <div className="mb-8">
-              <h3 className="text-lg font-bold text-gray-900 mb-4">🔥 Trending Now</h3>
-              <TrendingTopics topics={topics} />
-            </div>
-            
-            {/* ARIA's Promise */}
-            <div className="bg-aria-primary text-white p-6 rounded-lg mb-8">
-              <h3 className="text-lg font-bold mb-3">ARIA's Promise</h3>
-              <p className="text-sm mb-4">
-                I get the same tiny commission whether you buy from Currys or Amazon UK. 
-                My job is stopping you from wasting money, not pushing expensive options.
-              </p>
-              <ul className="text-sm space-y-2">
-                <li>✅ Real UK prices updated hourly</li>
-                <li>✅ Brexit import warnings</li>
-                <li>✅ Honest verdicts, no BS</li>
-                <li>✅ 127,000+ UK buyers trust me</li>
+
+          {/* Sidebar */}
+          <aside className="space-y-8">
+            {/* Trending */}
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-600 mb-4">
+                Trending Now
+              </h3>
+              <ul className="space-y-4">
+                {trending.map((item, index) => (
+                  <li key={index} className="pb-4 border-b border-gray-200 last:border-0 last:pb-0">
+                    <Link href={`/article/${item.slug}`} className="group">
+                      <h4 className="font-medium text-gray-900 group-hover:text-blue-600 transition-colors leading-tight">
+                        {item.title}
+                      </h4>
+                      <span className="text-xs text-gray-500 mt-1">{item.category}</span>
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
-            
-            {/* Source Performance */}
-            <div className="mb-8">
-              <h3 className="text-lg font-bold text-gray-900 mb-4">📰 My Sources</h3>
-              <SourcesList />
+
+            {/* Newsletter */}
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">
+                Get Our Best Reviews
+              </h3>
+              <p className="text-sm text-gray-600 mb-4">
+                Weekly digest of our most helpful tech reviews and buying guides.
+              </p>
+              <form onSubmit={handleSubscribe} className="space-y-3">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Your email address"
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+                <button
+                  type="submit"
+                  className={`w-full py-2 rounded-md text-sm font-medium transition-colors ${
+                    subscribed 
+                      ? 'bg-green-600 text-white' 
+                      : 'bg-blue-600 text-white hover:bg-blue-700'
+                  }`}
+                >
+                  {subscribed ? '✓ Subscribed!' : 'Subscribe Free'}
+                </button>
+              </form>
             </div>
-            
+
+            {/* About */}
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">
+                Why Trust Us
+              </h3>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                We spend hundreds of hours testing tech so you don't have to. We buy everything with our own money and never accept free products from manufacturers.
+              </p>
+              <Link href="/about" className="text-sm text-blue-600 font-medium mt-3 inline-flex items-center hover:gap-2 gap-1 transition-all">
+                Learn more <ChevronRight className="h-3 w-3" />
+              </Link>
+            </div>
+
             {/* Quick Stats */}
-            {stats.articles && (
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">📊 System Stats</h3>
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Articles Published</span>
-                    <span className="font-semibold">{stats.articles.total || 0}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Today's Articles</span>
-                    <span className="font-semibold">{stats.articles.publishedToday || 0}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Active Sources</span>
-                    <span className="font-semibold">{stats.sources?.active || 0}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Topics Tracking</span>
-                    <span className="font-semibold">{stats.topics?.trending || 0}</span>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-blue-900 mb-4">
+                ARIA's Promise
+              </h3>
+              <ul className="space-y-2 text-sm text-blue-900">
+                <li className="flex items-center gap-2">
+                  <span className="text-green-600">✓</span> 127,000+ UK readers trust us
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-600">✓</span> Real UK prices, updated daily
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-600">✓</span> No sponsored content ever
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-600">✓</span> Brexit import warnings included
+                </li>
+              </ul>
+            </div>
+          </aside>
         </div>
       </div>
-      
-      {/* Footer CTA */}
-      <div className="bg-aria-secondary text-white py-12">
-        <div className="max-w-4xl mx-auto text-center px-4">
+
+      {/* Newsletter CTA Section */}
+      <section className="bg-gray-900 text-white py-16 mt-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold mb-4">
-            Never Waste Money on Disappointing Tech Again
+            Stop Wasting Money on Tech That Disappoints
           </h2>
-          <p className="text-xl mb-8">
-            Join 127,000+ UK buyers getting honest tech advice from ARIA
+          <p className="text-lg text-gray-300 mb-8">
+            Join 127,000+ UK buyers getting honest tech advice every week
           </p>
-          <Link 
-            href="/newsletter"
-            className="inline-block bg-white text-aria-secondary px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
-          >
-            Get Daily Tech Insights →
-          </Link>
+          <form onSubmit={handleSubscribe} className="max-w-md mx-auto flex gap-4">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="flex-1 px-4 py-3 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
+              required
+            />
+            <button
+              type="submit"
+              className="px-6 py-3 bg-white text-gray-900 font-semibold rounded-md hover:bg-gray-100 transition-colors"
+            >
+              Get Updates
+            </button>
+          </form>
         </div>
-      </div>
-      
-      <style jsx>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .animate-fade-in {
-          animation: fadeIn 0.5s ease-out;
-        }
-      `}</style>
-    </Layout>
+      </section>
+    </EditorialLayout>
   );
 }
