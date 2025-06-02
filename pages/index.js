@@ -4,90 +4,12 @@ import CategoryNav from '../components/CategoryNav';
 import FeaturedHero from '../components/FeaturedHero';
 import ProfessionalArticleCard from '../components/ProfessionalArticleCard';
 import ProfessionalSidebar from '../components/ProfessionalSidebar';
+import { articles } from '../data/articles';
+import { siteConfig } from '../data/siteConfig';
 
-// Demo articles with enhanced data
-const articles = [
-  {
-    id: '1',
-    title: 'GPT-5 vs Claude 4: Which AI Assistant Should You Choose?',
-    slug: 'gpt-5-vs-claude-4-comparison',
-    excerpt: 'We put the latest language models through rigorous real-world tests across coding, writing, analysis, and reasoning tasks. The results surprised even our AI experts.',
-    category: 'AI Tools',
-    author: 'Michael Torres',
-    verdict: 'BEST OVERALL',
-    rating: '4.8',
-    price: 'From $20/mo',
-    quickVerdict: {
-      pros: ['Superior reasoning', 'Better context handling'],
-      cons: ['Higher cost', 'Slower responses']
-    },
-    published_date: new Date().toISOString()
-  },
-  {
-    id: '2',
-    title: 'GitHub Copilot X Review: The Future of Pair Programming',
-    slug: 'github-copilot-x-review',
-    excerpt: 'Microsoft\'s AI coding assistant promises to write entire functions from comments. We tested it on production code across 5 languages to see if it delivers.',
-    category: 'Developer Tools',
-    author: 'Alex Kim',
-    verdict: 'RECOMMENDED',
-    rating: '4.5',
-    price: '$19/mo',
-    quickVerdict: {
-      pros: ['Excellent autocomplete', 'IDE integration'],
-      cons: ['Language limitations', 'Requires fine-tuning']
-    },
-    published_date: new Date().toISOString()
-  },
-  {
-    id: '3',
-    title: 'Notion AI vs Obsidian: Smart Note-Taking Showdown',
-    slug: 'notion-ai-vs-obsidian',
-    excerpt: 'Both promise to revolutionize how you organize information with AI assistance. Our month-long test reveals which actually helps you think better.',
-    category: 'Productivity',
-    author: 'Emma Davis',
-    verdict: 'EDITOR\'S CHOICE',
-    rating: '4.7',
-    price: '$8-16/mo',
-    quickVerdict: {
-      pros: ['AI summarization', 'Cross-platform sync'],
-      cons: ['Learning curve', 'Limited offline AI']
-    },
-    published_date: new Date().toISOString()
-  },
-  {
-    id: '4',
-    title: '1Password vs Bitwarden: Ultimate Security Showdown',
-    slug: '1password-vs-bitwarden-2025',
-    excerpt: 'We tested both password managers with security experts to find out which one actually keeps your data safer in 2025.',
-    category: 'Security Tools',
-    author: 'Sarah Chen',
-    verdict: 'RECOMMENDED',
-    rating: '4.6',
-    price: 'From $3/mo',
-    quickVerdict: {
-      pros: ['Zero-knowledge encryption', 'Cross-platform support'],
-      cons: ['Complex setup', 'Premium features locked']
-    },
-    published_date: new Date().toISOString()
-  },
-  {
-    id: '5',
-    title: 'Midjourney 6 Review: Is AI Art Finally Professional-Grade?',
-    slug: 'midjourney-6-review',
-    excerpt: 'After generating 1,000+ images for commercial projects, we can definitively answer whether Midjourney is ready for professional use.',
-    category: 'AI Tools',
-    author: 'Rachel Green',
-    verdict: 'GOOD VALUE',
-    rating: '4.4',
-    price: '$10-30/mo',
-    quickVerdict: {
-      pros: ['Stunning image quality', 'Fast generation'],
-      cons: ['Inconsistent styles', 'Discord-only interface']
-    },
-    published_date: new Date().toISOString()
-  }
-];
+// Use articles from data file
+const displayArticles = articles.slice(0, 5); // Show first 5 articles
+
 
 export default function Home() {
   return (
@@ -142,7 +64,7 @@ export default function Home() {
             </div>
 
             {/* Article Cards */}
-            {articles.map((article) => (
+            {displayArticles.map((article) => (
               <ProfessionalArticleCard key={article.id} article={article} />
             ))}
 
