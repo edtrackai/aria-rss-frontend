@@ -1,21 +1,17 @@
 import { apiClient } from '../api'
 
 export interface TrendData {
-  id?: string;
   keyword: string
-  topic?: string;
-  title?: string;
   volume: number
-  searchVolume: number;
-  trend: 'rising' | 'steady' | 'declining' | 'up' | 'down' | 'stable';
-  difficulty: 'low' | 'medium' | 'high';
-  competition?: 'low' | 'medium' | 'high';
-  trendScore?: number;
-  score?: number;
-  relatedKeywords: string[];
-  relatedArticles?: number;
-  suggestedKeywords?: string[];
-  category?: string;
+  competition: 'low' | 'medium' | 'high'
+  cpc: number
+  trend: Array<{
+    date: string
+    value: number
+  }>
+  relatedKeywords: string[]
+  questions: string[]
+  difficulty: number
 }
 
 export interface TrendAnalysis {

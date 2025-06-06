@@ -6,11 +6,6 @@ export interface ActivityItem {
   title: string
   description: string
   timestamp: string
-  user?: {
-    id: string
-    name: string
-    avatar_url?: string
-  }
   metadata?: {
     articleId?: string
     userId?: string
@@ -22,7 +17,6 @@ export interface ActivityItem {
 export interface Article {
   id: string
   title: string
-  slug?: string
   status: 'draft' | 'published' | 'archived'
   author: {
     id: string
@@ -33,10 +27,6 @@ export interface Article {
   views: number
   revenue: number
   excerpt?: string
-  category?: {
-    id: string
-    name: string
-  }
 }
 
 export interface DashboardOverview {
@@ -88,21 +78,6 @@ export class DashboardApiService {
     })
 
     return await apiClient.get(`/api/v1/dashboard/activity?${searchParams}`)
-  }
-
-  /**
-   * Alias for getActivity for backward compatibility
-   */
-  static async getRecentActivity(params: {
-    limit?: number
-    offset?: number
-    types?: string[]
-  } = {}): Promise<{
-    items: ActivityItem[]
-    total: number
-    hasMore: boolean
-  }> {
-    return await this.getActivity(params)
   }
 
   /**
@@ -320,4 +295,3 @@ export class DashboardApiService {
 }
 
 export default DashboardApiService
-export const dashboardApi = DashboardApiService
