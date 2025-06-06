@@ -9,6 +9,14 @@ export interface CDNConfig {
   allowedDomains: string[]
   maxFileSize: number
   imageSizes: Record<string, { width: number; height?: number; quality?: number }>
+  preconnectDomains: string[]
+  dnsPrefetchDomains: string[]
+  preloadResources: Array<{
+    href: string
+    as: string
+    type?: string
+    crossOrigin?: string
+  }>
 }
 
 export const CDN_CONFIG: CDNConfig = {
@@ -31,7 +39,16 @@ export const CDN_CONFIG: CDNConfig = {
     hero: { width: 1920, height: 1080, quality: 95 },
     avatar: { width: 100, height: 100, quality: 90 },
     card: { width: 400, height: 250, quality: 85 },
-  }
+  },
+  preconnectDomains: [
+    'https://cdn.newshub.com',
+    'https://images.unsplash.com',
+  ],
+  dnsPrefetchDomains: [
+    'https://fonts.googleapis.com',
+    'https://fonts.gstatic.com',
+  ],
+  preloadResources: []
 }
 
 /**
