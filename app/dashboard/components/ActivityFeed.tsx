@@ -19,6 +19,23 @@ import { formatDistanceToNow } from 'date-fns'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
+interface Activity {
+  id: string
+  type: string
+  title: string
+  description: string
+  timestamp: string
+  user: {
+    name: string
+    avatar?: string
+  }
+  metadata?: Record<string, any>
+}
+
+interface ActivityResponse {
+  items: Activity[]
+}
+
 const activityIcons = {
   article_published: FileText,
   comment_added: MessageSquare,
@@ -34,7 +51,7 @@ const activityColors = {
 }
 
 export function ActivityFeed() {
-  const { data: activities, isLoading, error } = useQuery({
+  const { data: activities, isLoading, error } = useQuery<ActivityResponse>({
     queryKey: ['recent-activity'],
     queryFn: () => dashboardApi.getRecentActivity({ limit: 10 }),
     refetchInterval: 30000, // Refetch every 30 seconds
@@ -78,7 +95,7 @@ export function ActivityFeed() {
           ) : activities && activities.items && activities.items.length > 0 ? (
             <AnimatePresence mode="wait">
               <motion.div className="space-y-4">
-                {activities.items.map((activity, index) => {
+                {activities.items.map((activity: Activity, index: number) => {
                   const Icon = activityIcons[activity.type as keyof typeof activityIcons] || ActivityIcon
                   const colorClass = activityColors[activity.type as keyof typeof activityColors] || 'text-muted-foreground bg-muted'
                   
