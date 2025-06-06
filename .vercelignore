@@ -1,0 +1,17 @@
+# Vercel ignore file
+node_modules
+.next
+.git
+.gitignore
+*.md
+.env*
+!.env.production
+coverage
+.vscode
+.DS_Store
+*.log
+__tests__
+*.test.ts
+*.test.tsx
+cypress
+.github
