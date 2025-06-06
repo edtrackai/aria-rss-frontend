@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { ToastProvider, useToast, useApiErrorHandler, useAsyncToast } from '../ToastProvider'
 
 // Mock Radix UI Toast components
-jest.mock('@/components/ui/toast', () => ({
+jest.mock('@/components/cms/ui/toast', () => ({
   Toast: ({ children }: any) => <div data-testid="toast">{children}</div>,
   ToastProvider: ({ children }: any) => <div>{children}</div>,
   ToastTitle: ({ children }: any) => <div data-testid="toast-title">{children}</div>,
@@ -13,7 +13,7 @@ jest.mock('@/components/ui/toast', () => ({
   ToastAction: ({ children, onClick }: any) => <button onClick={onClick}>{children}</button>,
 }))
 
-jest.mock('@/components/ui/toaster', () => ({
+jest.mock('@/components/cms/ui/toaster', () => ({
   Toaster: () => <div data-testid="toaster" />,
 }))
 

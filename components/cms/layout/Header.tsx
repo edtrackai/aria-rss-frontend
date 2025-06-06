@@ -4,15 +4,15 @@ import React from 'react'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/useAuth'
 import { useTheme } from '@/components/providers/ThemeProvider'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/cms/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+} from '@/components/cms/ui/dropdown-menu'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/cms/ui/avatar'
 import { 
   Moon, 
   Sun, 

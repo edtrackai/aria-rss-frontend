@@ -12,16 +12,16 @@ import {
   AlertCircle,
   CheckCircle2
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Separator } from '@/components/ui/separator';
-import { Progress } from '@/components/ui/progress';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Button } from '@/components/cms/ui/button';
+import { Input } from '@/components/cms/ui/input';
+import { Label } from '@/components/cms/ui/label';
+import { Textarea } from '@/components/cms/ui/textarea';
+import { Card } from '@/components/cms/ui/card';
+import { Badge } from '@/components/cms/ui/badge';
+import { Alert, AlertDescription } from '@/components/cms/ui/alert';
+import { Separator } from '@/components/cms/ui/separator';
+import { Progress } from '@/components/cms/ui/progress';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/cms/ui/popover';
 import { WizardState } from '@/hooks/useWizardState';
 import { aiApi } from '@/lib/api/aiApi';
 import { trendsApi } from '@/lib/api/trendsApi';

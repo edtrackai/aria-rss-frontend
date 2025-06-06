@@ -1,8 +1,8 @@
 "use client"
 
 import React, { createContext, useContext, useState, useCallback } from 'react'
-import { Toast, ToastProvider as RadixToastProvider, ToastTitle, ToastDescription, ToastClose, ToastAction } from '@/components/ui/toast'
-import { Toaster } from '@/components/ui/toaster'
+import { Toast, ToastProvider as RadixToastProvider, ToastTitle, ToastDescription, ToastClose, ToastAction } from '@/components/cms/ui/toast'
+import { Toaster } from '@/components/cms/ui/toaster'
 
 export interface ToastData {
   id: string

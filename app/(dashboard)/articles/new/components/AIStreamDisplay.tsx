@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Card } from '@/components/cms/ui/card';
+import { Badge } from '@/components/cms/ui/badge';
+import { Separator } from '@/components/cms/ui/separator';
+import { ScrollArea } from '@/components/cms/ui/scroll-area';
+import { Skeleton } from '@/components/cms/ui/skeleton';
 import { cn } from '@/lib/utils';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';

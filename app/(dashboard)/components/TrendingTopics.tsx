@@ -1,9 +1,9 @@
 "use client"
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/cms/ui/card'
+import { Badge } from '@/components/cms/ui/badge'
+import { Skeleton } from '@/components/cms/ui/skeleton'
+import { Button } from '@/components/cms/ui/button'
 import { TrendingUp, TrendingDown, Minus, Sparkles, RefreshCw } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTrendingTopics } from '@/hooks/dashboard/useTrendingTopics'

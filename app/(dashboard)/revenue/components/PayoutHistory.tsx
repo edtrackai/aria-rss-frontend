@@ -1,13 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/cms/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/cms/ui/table';
+import { Badge } from '@/components/cms/ui/badge';
+import { Button } from '@/components/cms/ui/button';
 import { Calendar, Download, FileText, DollarSign, Clock, CheckCircle2 } from 'lucide-react';
 import { format } from 'date-fns';
-import { Progress } from '@/components/ui/progress';
+import { Progress } from '@/components/cms/ui/progress';
 
 interface Payout {
   id: string;

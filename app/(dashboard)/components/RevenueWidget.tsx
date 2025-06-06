@@ -1,8 +1,8 @@
 "use client"
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/cms/ui/card'
+import { Skeleton } from '@/components/cms/ui/skeleton'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/cms/ui/select'
 import { useRevenueData } from '@/hooks/dashboard/useRevenueData'
 import { formatCurrency } from '@/lib/dashboard/chartHelpers'
 import { useTheme } from '@/hooks/useTheme'

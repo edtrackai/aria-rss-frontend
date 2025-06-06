@@ -13,16 +13,16 @@ import {
   Edit3,
   X
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Progress } from '@/components/ui/progress';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/cms/ui/button';
+import { Card } from '@/components/cms/ui/card';
+import { Badge } from '@/components/cms/ui/badge';
+import { Alert, AlertDescription } from '@/components/cms/ui/alert';
+import { Progress } from '@/components/cms/ui/progress';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/cms/ui/tabs';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/cms/ui/dialog';
+import { Input } from '@/components/cms/ui/input';
+import { Label } from '@/components/cms/ui/label';
+import { Textarea } from '@/components/cms/ui/textarea';
 import { WizardState } from '@/hooks/useWizardState';
 import { useAIGeneration } from '@/hooks/useAIGeneration';
 import { toast } from 'sonner';

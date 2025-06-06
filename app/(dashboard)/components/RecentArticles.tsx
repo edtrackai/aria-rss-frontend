@@ -1,10 +1,10 @@
 "use client"
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/cms/ui/card'
+import { Badge } from '@/components/cms/ui/badge'
+import { Button } from '@/components/cms/ui/button'
+import { Skeleton } from '@/components/cms/ui/skeleton'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/cms/ui/avatar'
 import { 
   MoreHorizontal, 
   Eye, 
@@ -20,7 +20,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@/components/cms/ui/dropdown-menu'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useQuery } from '@tanstack/react-query'
 import { dashboardApi } from '@/lib/dashboard/dashboardApi'

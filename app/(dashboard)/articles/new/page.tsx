@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card } from '@/components/cms/ui/card';
+import { Button } from '@/components/cms/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useWizardState } from '@/hooks/useWizardState';
 import { ErrorBoundary } from 'react-error-boundary';

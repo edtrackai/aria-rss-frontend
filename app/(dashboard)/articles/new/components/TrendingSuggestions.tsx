@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TrendingUp, Search, Sparkles, RefreshCw } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Badge } from '@/components/cms/ui/badge';
+import { Button } from '@/components/cms/ui/button';
+import { Card } from '@/components/cms/ui/card';
+import { Skeleton } from '@/components/cms/ui/skeleton';
 import { TrendingTopic } from '@/hooks/useTrendingTopics';
 import { cn } from '@/lib/utils';
 

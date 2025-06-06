@@ -2,16 +2,16 @@
 
 import React, { useState, useEffect, useCallback } from 'react'
 import { Bell, BellRing, X, Check, AlertCircle, Info, CheckCircle } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/cms/ui/button'
+import { Badge } from '@/components/cms/ui/badge'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/cms/ui/card'
 import { 
   Popover, 
   PopoverContent, 
   PopoverTrigger 
-} from '@/components/ui/popover'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Separator } from '@/components/ui/separator'
+} from '@/components/cms/ui/popover'
+import { ScrollArea } from '@/components/cms/ui/scroll-area'
+import { Separator } from '@/components/cms/ui/separator'
 import { useSocketEvent } from './SocketProvider'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'

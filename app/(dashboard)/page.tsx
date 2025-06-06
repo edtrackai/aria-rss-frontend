@@ -9,9 +9,9 @@ import { useRealtimeUpdates } from '@/hooks/dashboard/useRealtimeUpdates'
 import { useEffect, useState, Suspense } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { RefreshCw } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/cms/ui/button'
 import { cn } from '@/lib/utils'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from '@/components/cms/ui/skeleton'
 
 // Lazy load heavy components
 const TrendingTopics = dynamic(

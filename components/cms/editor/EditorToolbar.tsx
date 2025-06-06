@@ -20,14 +20,14 @@ import {
   Redo,
   Type
 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
+import { Button } from '@/components/cms/ui/button'
+import { Separator } from '@/components/cms/ui/separator'
 import { 
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger 
-} from '@/components/ui/dropdown-menu'
+} from '@/components/cms/ui/dropdown-menu'
 import { 
   Dialog,
   DialogContent,
@@ -35,9 +35,9 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter
-} from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+} from '@/components/cms/ui/dialog'
+import { Input } from '@/components/cms/ui/input'
+import { Label } from '@/components/cms/ui/label'
 import { cn } from '@/lib/utils'
 
 export interface EditorToolbarProps {

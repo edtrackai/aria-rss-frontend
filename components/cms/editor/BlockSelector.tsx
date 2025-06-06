@@ -17,14 +17,14 @@ import {
   Plus,
   Minus
 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/cms/ui/button'
 import { 
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger 
-} from '@/components/ui/dropdown-menu'
+} from '@/components/cms/ui/dropdown-menu'
 import { 
   Dialog,
   DialogContent,
@@ -32,10 +32,10 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter
-} from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
+} from '@/components/cms/ui/dialog'
+import { Input } from '@/components/cms/ui/input'
+import { Label } from '@/components/cms/ui/label'
+import { Textarea } from '@/components/cms/ui/textarea'
 import { cn } from '@/lib/utils'
 
 export interface BlockSelectorProps {

@@ -1,10 +1,10 @@
 "use client"
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
-import { Skeleton } from '@/components/ui/skeleton'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/cms/ui/card'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/cms/ui/avatar'
+import { Badge } from '@/components/cms/ui/badge'
+import { Skeleton } from '@/components/cms/ui/skeleton'
+import { ScrollArea } from '@/components/cms/ui/scroll-area'
 import { 
   Activity as ActivityIcon, 
   FileText, 

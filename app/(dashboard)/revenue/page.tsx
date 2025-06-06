@@ -6,10 +6,10 @@ import { TopProducts } from './components/TopProducts';
 import { CommissionTracker } from './components/CommissionTracker';
 import { PayoutHistory } from './components/PayoutHistory';
 import { LinkManager } from './components/LinkManager';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { DateRangePicker, DateRange } from '@/components/ui/date-range-picker';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/cms/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/cms/ui/tabs';
+import { DateRangePicker, DateRange } from '@/components/cms/ui/date-range-picker';
+import { Button } from '@/components/cms/ui/button';
 import { Download, TrendingUp, DollarSign, MousePointer, ShoppingCart } from 'lucide-react';
 import { format } from 'date-fns';
 

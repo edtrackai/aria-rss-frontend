@@ -12,14 +12,14 @@ import {
   BookOpen,
   Smile
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Slider } from '@/components/ui/slider';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/cms/ui/button';
+import { Card } from '@/components/cms/ui/card';
+import { Label } from '@/components/cms/ui/label';
+import { Slider } from '@/components/cms/ui/slider';
+import { RadioGroup, RadioGroupItem } from '@/components/cms/ui/radio-group';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/cms/ui/select';
+import { Badge } from '@/components/cms/ui/badge';
+import { Separator } from '@/components/cms/ui/separator';
 import { WizardState } from '@/hooks/useWizardState';
 import { cn } from '@/lib/utils';
 

@@ -13,7 +13,7 @@ import { useRealtimeUpdates } from '@/hooks/dashboard/useRealtimeUpdates'
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { RefreshCw } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/cms/ui/button'
 import { cn } from '@/lib/utils'
 
 export default function DashboardPage() {
