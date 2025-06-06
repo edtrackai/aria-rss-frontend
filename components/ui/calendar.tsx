@@ -51,7 +51,8 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        DayContent: ({ date, displayMonth }) => <div>{date.getDate()}</div>,
+        IconLeft: () => <ChevronLeft className="h-4 w-4" />,
+        IconRight: () => <ChevronRight className="h-4 w-4" />,
       }}
       {...props}
     />
