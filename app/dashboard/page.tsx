@@ -1,13 +1,19 @@
 "use client"
 
+import dynamic from 'next/dynamic'
 import { WelcomeHeader } from '../(dashboard)/components/WelcomeHeader'
 import { StatsCards } from '../(dashboard)/components/StatsCards'
 import { QuickActions } from '../(dashboard)/components/QuickActions'
 import { TrendingTopics } from '../(dashboard)/components/TrendingTopics'
 import { RecentArticles } from '../(dashboard)/components/RecentArticles'
-import { RevenueWidget } from '../(dashboard)/components/RevenueWidget'
 import { ActivityFeed } from '../(dashboard)/components/ActivityFeed'
 import { AIAssistant } from '../(dashboard)/components/AIAssistant'
+
+// Dynamic import RevenueWidget to prevent SSR issues with useTheme
+const RevenueWidget = dynamic(
+  () => import('../(dashboard)/components/RevenueWidget').then(mod => ({ default: mod.RevenueWidget })),
+  { ssr: false }
+)
 import { useDashboardStats } from '@/hooks/useDashboardStats'
 import { useRealtimeUpdates } from '@/hooks/useRealtimeUpdates'
 import { useEffect, useState } from 'react'

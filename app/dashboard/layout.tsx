@@ -1,11 +1,17 @@
 "use client"
 
 import React from 'react'
+import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
-import { Header } from '@/components/cms/layout/Header'
 import { Sidebar } from '@/components/cms/layout/Sidebar'
 import { MobileNav } from '@/components/cms/layout/MobileNav'
 import { cn } from '@/lib/utils'
+
+// Dynamic import Header to prevent SSR issues with useTheme
+const Header = dynamic(
+  () => import('@/components/cms/layout/Header').then(mod => ({ default: mod.Header })),
+  { ssr: false }
+)
 
 export default function DashboardLayout({
   children,
