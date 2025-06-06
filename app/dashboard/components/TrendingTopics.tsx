@@ -83,7 +83,7 @@ export function TrendingTopics() {
             <motion.div className="space-y-3">
               {topics.map((topic, index) => (
                 <motion.div
-                  key={topic.id}
+                  key={topic.keyword || index}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
