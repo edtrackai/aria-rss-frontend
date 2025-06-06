@@ -48,6 +48,7 @@ export interface WizardState {
   focusKeyword?: string
   metaDescription?: string
   category?: string
+  template?: ArticleTemplate
   // Generated content
   generatedTitle?: string
   generatedContent?: string

@@ -8,7 +8,7 @@ import { Input } from '@/components/cms/ui/input'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/cms/ui/card'
 import { useAuth } from '@/hooks/useAuth'
 import { toast } from '@/components/cms/ui/use-toast'
-import { ApiError } from '@/lib/api'
+import type { ApiError } from '@/lib/api'
 
 export default function LoginPage() {
   const router = useRouter()
