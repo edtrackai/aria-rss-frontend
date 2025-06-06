@@ -117,7 +117,7 @@ export function ActivityFeed() {
                           {activity.user && (
                             <div className="flex items-center gap-1">
                               <Avatar className="h-4 w-4">
-                                <AvatarImage src={activity.user.avatar_url} />
+                                <AvatarImage src={activity.user.avatar} />
                                 <AvatarFallback className="text-[10px]">
                                   {activity.user.name?.charAt(0).toUpperCase()}
                                 </AvatarFallback>
