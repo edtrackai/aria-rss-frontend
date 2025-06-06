@@ -143,17 +143,16 @@ export function Sidebar({ className }: SidebarProps) {
                   {item.children && pathname && pathname.startsWith(item.href) && (
                     <div className="ml-6 mt-1 space-y-1">
                       {item.children.map((child) => (
-                        <Button
+                        <Link
                           key={child.name}
-                          asChild
-                          variant={pathname === child.href ? "secondary" : "ghost"}
-                          size="sm"
-                          className="w-full justify-start"
+                          href={child.href}
+                          className={cn(
+                            "flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
+                            pathname === child.href ? "bg-accent" : "transparent"
+                          )}
                         >
-                          <Link href={child.href}>
-                            {child.name}
-                          </Link>
-                        </Button>
+                          {child.name}
+                        </Link>
                       ))}
                     </div>
                   )}
