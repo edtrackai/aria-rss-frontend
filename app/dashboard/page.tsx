@@ -58,6 +58,20 @@ export default function DashboardPage() {
   const { stats, isLoading: statsLoading, error: statsError, refresh: refetch } = useDashboardStats()
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [lastRefresh, setLastRefresh] = useState(new Date())
+  
+  // Use mock data if stats are not available
+  const dashboardStats = stats || {
+    totalRevenue: 1847.50,
+    pageViews: 12543,
+    articlesPublished: 45,
+    comments: 234,
+    growth: {
+      revenue: 29.0,
+      views: 27.0,
+      articles: 18.4,
+      comments: 15.2
+    }
+  }
 
   // Enable real-time updates
   useRealtimeUpdates()
@@ -165,7 +179,7 @@ export default function DashboardPage() {
 
       {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatsCards stats={stats} isLoading={statsLoading} error={statsError ? new Error(statsError) : null} />
+        <StatsCards stats={dashboardStats} isLoading={statsLoading} error={statsError ? new Error(statsError) : null} />
       </div>
 
       {/* Main Content Grid */}

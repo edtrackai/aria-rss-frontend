@@ -4,19 +4,19 @@
   "outputDirectory": ".next",
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "https://api.ai-reviewed.com/api/:path*"
+      "source": "/api/backend/:path*",
+      "destination": "https://backend-5vvgwhc3o-shahlals-projects.vercel.app/api/:path*"
     }
   ],
   "env": {
-    "NEXT_PUBLIC_API_URL": "https://api.ai-reviewed.com",
-    "NEXT_PUBLIC_WS_URL": "wss://api.ai-reviewed.com",
-    "NEXT_PUBLIC_BACKEND_URL": "https://api.ai-reviewed.com",
+    "NEXT_PUBLIC_API_URL": "https://backend-5vvgwhc3o-shahlals-projects.vercel.app",
+    "NEXT_PUBLIC_WS_URL": "wss://backend-5vvgwhc3o-shahlals-projects.vercel.app",
+    "NEXT_PUBLIC_BACKEND_URL": "https://backend-5vvgwhc3o-shahlals-projects.vercel.app",
     "NEXT_PUBLIC_SUPABASE_URL": "https://gimmdayqdhxfflaedles.supabase.co",
     "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdpbW1kYXlxZGh4ZmZsYWVkbGVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY0NjA4MTQsImV4cCI6MjA1MjAzNjgxNH0.MiU7PxE-LFOBf5p6Kw6mcrGNC4Y5RFdq8Ljiw2L5fZw",
-    "NEXT_PUBLIC_CDN_URL": "https://cdn.ai-reviewed.com",
-    "NEXT_PUBLIC_DOMAIN": "ai-reviewed.com",
-    "NEXT_PUBLIC_SITE_NAME": "AI Reviewed",
+    "NEXT_PUBLIC_CDN_URL": "https://merged-frontend.vercel.app",
+    "NEXT_PUBLIC_DOMAIN": "merged-frontend.vercel.app",
+    "NEXT_PUBLIC_SITE_NAME": "NewsHub CMS",
     "NEXT_PUBLIC_SITE_DESCRIPTION": "AI-powered content management and review platform",
     "NEXT_PUBLIC_ENABLE_ANALYTICS": "true",
     "NEXT_PUBLIC_ENABLE_COMMENTS": "true",
