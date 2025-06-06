@@ -31,6 +31,7 @@ import Link from 'next/link'
 interface Article {
   id: string
   title: string
+  slug: string
   status: string
   views: number
   publishedAt: string
