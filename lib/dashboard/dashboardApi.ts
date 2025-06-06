@@ -320,14 +320,16 @@ export const dashboardApi = {
       }))
     }
   },
-  getRecentArticles: async () => {
+  getRecentArticles: async (params?: { limit?: number }) => {
     const stats = await DashboardApiService.getStats()
+    const articles = stats.topPerformingArticles || []
+    const limit = params?.limit || 10
     return {
-      articles: stats.topPerformingArticles?.map((article: any) => ({
+      articles: articles.slice(0, limit).map((article: any) => ({
         ...article,
-        publishedAt: new Date().toISOString(),
-        status: 'published' as const
-      })) || []
+        publishedAt: article.publishedAt || new Date().toISOString(),
+        status: article.status || 'published' as const
+      }))
     }
   }
 }
