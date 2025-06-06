@@ -304,6 +304,22 @@ export const dashboardApi = {
       recentActivity: stats.recentActivity || []
     }
   },
+  getRecentActivity: async (params?: { limit?: number }) => {
+    const stats = await DashboardApiService.getStats()
+    const activities = stats.recentActivity || []
+    const limit = params?.limit || 10
+    return {
+      items: activities.slice(0, limit).map((activity: any, index: number) => ({
+        id: activity.id || `activity-${index}`,
+        type: activity.type || 'article_published',
+        title: activity.title || 'Unknown Activity',
+        description: activity.description || '',
+        timestamp: activity.timestamp || new Date().toISOString(),
+        user: activity.user || { name: 'System', avatar: '' },
+        metadata: activity.metadata || {}
+      }))
+    }
+  },
   getRecentArticles: async () => {
     const stats = await DashboardApiService.getStats()
     return {
