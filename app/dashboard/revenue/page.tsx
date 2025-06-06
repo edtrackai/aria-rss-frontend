@@ -26,7 +26,7 @@ interface RevenueMetrics {
 
 export default function RevenueDashboard() {
   const searchParams = useSearchParams();
-  const tabFromUrl = searchParams.get('tab');
+  const tabFromUrl = searchParams?.get('tab');
   
   const [metrics, setMetrics] = useState<RevenueMetrics | null>(null);
   const [dateRange, setDateRange] = useState<DateRange>({
