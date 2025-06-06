@@ -171,10 +171,10 @@ export default function StepTopic({ state, updateState, onNext }: StepTopicProps
   };
 
   const handleTrendingTopicSelect = (topic: TrendingTopic) => {
-    setSelectedTopic(topic);
-    setTopicInput(topic.title);
+    setSelectedTopic(topic.keyword);
+    setTopicInput(topic.title || topic.keyword);
     updateState({
-      topic: topic.title,
+      topic: topic.title || topic.keyword,
       category: topic.category,
       keywords: topic.suggestedKeywords,
     });
