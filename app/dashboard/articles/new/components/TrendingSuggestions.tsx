@@ -25,8 +25,8 @@ export default function TrendingSuggestions({
 }: TrendingSuggestionsProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-  const getCompetitionColor = (competition: string) => {
-    switch (competition) {
+  const getCompetitionColor = (competition: string | undefined) => {
+    switch (competition || 'unknown') {
       case 'low':
         return 'text-green-600 bg-green-50';
       case 'medium':

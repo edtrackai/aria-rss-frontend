@@ -294,4 +294,26 @@ export class DashboardApiService {
   }
 }
 
+// Named export for compatibility
+export const dashboardApi = {
+  getStats: DashboardApiService.getStats,
+  getRevenue: DashboardApiService.getRevenue,
+  getActivity: async () => {
+    const stats = await DashboardApiService.getStats()
+    return {
+      recentActivity: stats.recentActivity || []
+    }
+  },
+  getRecentArticles: async () => {
+    const stats = await DashboardApiService.getStats()
+    return {
+      articles: stats.topPerformingArticles?.map((article: any) => ({
+        ...article,
+        publishedAt: new Date().toISOString(),
+        status: 'published' as const
+      })) || []
+    }
+  }
+}
+
 export default DashboardApiService

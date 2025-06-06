@@ -74,7 +74,11 @@ export function useTrendingTopics(filters: TrendingTopicsFilters = {}) {
   }, [data])
 
   // Add missing properties for compatibility
-  const topics = data?.trends || []
+  const topics: TrendingTopic[] = (data?.trends || []).map(trend => ({
+    ...trend,
+    searchVolume: trend.volume,
+    competition: trend.competition || 'medium'
+  }))
   const selectedTopic = selectedTrends[0] || null
   const setSelectedTopic = useCallback((topic: string | null) => {
     if (topic) {
