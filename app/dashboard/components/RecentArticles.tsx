@@ -28,8 +28,24 @@ import { formatDistanceToNow } from 'date-fns'
 import { formatNumber } from '@/lib/dashboard/chartHelpers'
 import Link from 'next/link'
 
+interface Article {
+  id: string
+  title: string
+  status: string
+  views: number
+  publishedAt: string
+  author?: {
+    name: string
+    avatar?: string
+  }
+}
+
+interface ArticlesResponse {
+  articles: Article[]
+}
+
 export function RecentArticles() {
-  const { data: articles, isLoading, error } = useQuery({
+  const { data: articles, isLoading, error } = useQuery<ArticlesResponse>({
     queryKey: ['recent-articles'],
     queryFn: () => dashboardApi.getRecentArticles({ limit: 5 }),
     refetchInterval: 60000,
@@ -90,7 +106,7 @@ export function RecentArticles() {
         ) : articles && articles.articles && articles.articles.length > 0 ? (
           <AnimatePresence mode="wait">
             <motion.div className="space-y-4">
-              {articles.articles.map((article, index) => (
+              {articles.articles.map((article: Article, index: number) => (
                 <motion.div
                   key={article.id}
                   initial={{ opacity: 0, y: 20 }}
