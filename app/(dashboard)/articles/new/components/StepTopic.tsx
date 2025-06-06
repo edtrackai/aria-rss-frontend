@@ -166,7 +166,7 @@ export default function StepTopic({ state, updateState, onNext }: StepTopicProps
       length: template.length,
       keywords: template.keywords,
     });
-    setTopicInput(template.topic);
+    setTopicInput(template.topic || '');
     toast.success(`Template "${template.name}" applied`);
   };
 
