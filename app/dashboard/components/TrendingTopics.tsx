@@ -12,26 +12,22 @@ import { cn } from '@/lib/utils'
 export function TrendingTopics() {
   const { trends: topics, isLoading, error, refreshTrends: refetch } = useTrendingTopics()
 
-  const getTrendIcon = (trend: 'up' | 'down' | 'stable' | 'rising' | 'steady' | 'declining') => {
+  const getTrendIcon = (trend: 'up' | 'down' | 'stable') => {
     switch (trend) {
       case 'up':
-      case 'rising':
         return <TrendingUp className="h-3 w-3 text-green-500" />
       case 'down':
-      case 'declining':
         return <TrendingDown className="h-3 w-3 text-red-500" />
       default:
         return <Minus className="h-3 w-3 text-muted-foreground" />
     }
   }
 
-  const getTrendColor = (trend: 'up' | 'down' | 'stable' | 'rising' | 'steady' | 'declining') => {
+  const getTrendColor = (trend: 'up' | 'down' | 'stable') => {
     switch (trend) {
       case 'up':
-      case 'rising':
         return 'text-green-500 bg-green-500/10'
       case 'down':
-      case 'declining':
         return 'text-red-500 bg-red-500/10'
       default:
         return 'text-muted-foreground bg-muted'
@@ -91,14 +87,14 @@ export function TrendingTopics() {
                   className="flex items-center justify-between p-3 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-sm font-medium">#{topic.topic}</span>
+                    <span className="text-sm font-medium">#{topic.keyword}</span>
                     <Badge variant="secondary" className="text-xs">
-                      {topic.relatedArticles} articles
+                      {topic.volume} searches
                     </Badge>
                   </div>
-                  <div className={cn("flex items-center gap-1 px-2 py-1 rounded", getTrendColor(topic.trend))}>
-                    {getTrendIcon(topic.trend)}
-                    <span className="text-xs font-medium">{topic.score}</span>
+                  <div className={cn("flex items-center gap-1 px-2 py-1 rounded", getTrendColor(topic.competition === 'high' ? 'down' : topic.competition === 'low' ? 'up' : 'stable'))}>
+                    {getTrendIcon(topic.competition === 'high' ? 'down' : topic.competition === 'low' ? 'up' : 'stable')}
+                    <span className="text-xs font-medium">{topic.difficulty}%</span>
                   </div>
                 </motion.div>
               ))}
