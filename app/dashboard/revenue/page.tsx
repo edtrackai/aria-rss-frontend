@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { RevenueChart } from './components/RevenueChart';
 import { TopProducts } from './components/TopProducts';
 import { CommissionTracker } from './components/CommissionTracker';
@@ -8,7 +9,8 @@ import { PayoutHistory } from './components/PayoutHistory';
 import { LinkManager } from './components/LinkManager';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/cms/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/cms/ui/tabs';
-import { DateRangePicker, DateRange } from '@/components/cms/ui/date-range-picker';
+import { DateRangePicker } from '@/components/cms/ui/date-range-picker';
+import type { DateRange } from '@/components/cms/ui/date-range-picker';
 import { Button } from '@/components/cms/ui/button';
 import { Download, TrendingUp, DollarSign, MousePointer, ShoppingCart } from 'lucide-react';
 import { format } from 'date-fns';
@@ -23,13 +25,25 @@ interface RevenueMetrics {
 }
 
 export default function RevenueDashboard() {
+  const searchParams = useSearchParams();
+  const tabFromUrl = searchParams.get('tab');
+  
   const [metrics, setMetrics] = useState<RevenueMetrics | null>(null);
   const [dateRange, setDateRange] = useState<DateRange>({
     from: new Date(new Date().setDate(new Date().getDate() - 30)),
     to: new Date()
   });
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState(() => {
+    // Map URL tab parameter to actual tab value
+    const tabMapping: { [key: string]: string } = {
+      'products': 'products',
+      'links': 'links',
+      'payouts': 'payouts',
+      'analytics': 'products', // analytics redirects to products tab
+    };
+    return tabMapping[tabFromUrl || ''] || 'overview';
+  });
 
   useEffect(() => {
     fetchRevenueMetrics();
@@ -38,15 +52,41 @@ export default function RevenueDashboard() {
   const fetchRevenueMetrics = async () => {
     try {
       setLoading(true);
-      const response = await fetch(
-        `/api/revenue/metrics?startDate=${dateRange.from?.toISOString()}&endDate=${dateRange.to?.toISOString()}`
-      );
-      const data = await response.json();
-      if (data.success) {
-        setMetrics(data.data);
-      }
+      
+      // Mock data for development
+      const mockMetrics: RevenueMetrics = {
+        totalRevenue: 12847.50,
+        totalClicks: 3456,
+        totalConversions: 142,
+        conversionRate: 4.11,
+        averageOrderValue: 90.47,
+        revenuePerClick: 3.72
+      };
+      
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      setMetrics(mockMetrics);
+      
+      // Uncomment when backend is ready
+      // const response = await fetch(
+      //   `/api/revenue/metrics?startDate=${dateRange.from?.toISOString()}&endDate=${dateRange.to?.toISOString()}`
+      // );
+      // const data = await response.json();
+      // if (data.success) {
+      //   setMetrics(data.data);
+      // }
     } catch (error) {
       console.error('Error fetching revenue metrics:', error);
+      // Set mock data even on error for development
+      setMetrics({
+        totalRevenue: 12847.50,
+        totalClicks: 3456,
+        totalConversions: 142,
+        conversionRate: 4.11,
+        averageOrderValue: 90.47,
+        revenuePerClick: 3.72
+      });
     } finally {
       setLoading(false);
     }
