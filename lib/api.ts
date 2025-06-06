@@ -47,7 +47,34 @@ class ApiClient {
     // Response interceptor for error handling
     this.client.interceptors.response.use(
       (response) => response,
-      (error) => {
+      async (error) => {
+        // If backend is not available, return mock data
+        if (error.code === 'ECONNREFUSED' || error.response?.status === 404 || error.response?.status === 500) {
+          console.warn('Backend unavailable, using mock data')
+          const endpoint = error.config?.url || ''
+          
+          // Return mock data based on endpoint
+          if (endpoint.includes('/dashboard/stats')) {
+            const { mockDashboardStats } = await import('./dashboard/mockData')
+            return { data: mockDashboardStats }
+          }
+          if (endpoint.includes('/dashboard/activity')) {
+            const { mockRecentActivity } = await import('./dashboard/mockData')
+            return { data: { items: mockRecentActivity, total: mockRecentActivity.length, hasMore: false } }
+          }
+          if (endpoint.includes('/dashboard/articles')) {
+            const { mockRecentArticles } = await import('./dashboard/mockData')
+            return { data: { articles: mockRecentArticles, total: mockRecentArticles.length } }
+          }
+          if (endpoint.includes('/dashboard/revenue')) {
+            const { mockRevenueData } = await import('./dashboard/mockData')
+            return { data: mockRevenueData }
+          }
+          if (endpoint.includes('/trending-topics')) {
+            const { mockTrendingTopics } = await import('./dashboard/mockData')
+            return { data: { trends: mockTrendingTopics, totalResults: mockTrendingTopics.length, lastUpdated: new Date().toISOString() } }
+          }
+        }
         if (error.response?.status === 401) {
           this.handleUnauthorized()
         }
