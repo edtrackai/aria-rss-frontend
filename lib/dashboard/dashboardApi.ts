@@ -297,41 +297,10 @@ export class DashboardApiService {
 // Named export for compatibility
 export const dashboardApi = {
   getStats: DashboardApiService.getStats,
-  getRevenue: DashboardApiService.getRevenue,
-  getActivity: async () => {
-    const stats = await DashboardApiService.getStats()
-    return {
-      recentActivity: stats.recentActivity || []
-    }
-  },
-  getRecentActivity: async (params?: { limit?: number }) => {
-    const stats = await DashboardApiService.getStats()
-    const activities = stats.recentActivity || []
-    const limit = params?.limit || 10
-    return {
-      items: activities.slice(0, limit).map((activity: any, index: number) => ({
-        id: activity.id || `activity-${index}`,
-        type: activity.type || 'article_published',
-        title: activity.title || 'Unknown Activity',
-        description: activity.description || '',
-        timestamp: activity.timestamp || new Date().toISOString(),
-        user: activity.user || { name: 'System', avatar: '' },
-        metadata: activity.metadata || {}
-      }))
-    }
-  },
-  getRecentArticles: async (params?: { limit?: number }) => {
-    const stats = await DashboardApiService.getStats()
-    const articles = stats.topPerformingArticles || []
-    const limit = params?.limit || 10
-    return {
-      articles: articles.slice(0, limit).map((article: any) => ({
-        ...article,
-        publishedAt: article.publishedAt || new Date().toISOString(),
-        status: article.status || 'published' as const
-      }))
-    }
-  }
+  getRevenue: DashboardApiService.getRevenueAnalytics,
+  getActivity: DashboardApiService.getActivity,
+  getRecentActivity: DashboardApiService.getActivity,
+  getRecentArticles: DashboardApiService.getRecentArticles
 }
 
 export default DashboardApiService

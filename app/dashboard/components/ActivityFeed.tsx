@@ -51,9 +51,25 @@ const activityColors = {
 }
 
 export function ActivityFeed() {
-  const { data: activities, isLoading, error } = useQuery<ActivityResponse>({
+  const { data: activities, isLoading, error } = useQuery({
     queryKey: ['recent-activity'],
-    queryFn: () => dashboardApi.getRecentActivity({ limit: 10 }),
+    queryFn: async () => {
+      const response = await dashboardApi.getRecentActivity({ limit: 10 })
+      return {
+        items: response.items.map((item: any) => ({
+          id: item.id,
+          type: item.type,
+          title: item.title,
+          description: item.title, // Use title as description
+          timestamp: item.timestamp,
+          user: {
+            name: item.metadata?.userName || 'User',
+            avatar: item.metadata?.userAvatar
+          },
+          metadata: item.metadata
+        }))
+      }
+    },
     refetchInterval: 30000, // Refetch every 30 seconds
   })
 

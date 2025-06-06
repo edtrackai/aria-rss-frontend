@@ -47,7 +47,7 @@ export function useTrendingTopics(filters: TrendingTopicsFilters = {}) {
           competition: trend.competition,
           suggestedKeywords: trend.relatedKeywords,
           volume: trend.volume,
-          difficulty: trend.difficulty === 'low' ? 'easy' : trend.difficulty === 'high' ? 'hard' : 'medium',
+          difficulty: trend.difficulty < 30 ? 'easy' : trend.difficulty > 70 ? 'hard' : 'medium',
           opportunity: trend.volume > 10000 ? 'high' : trend.volume > 1000 ? 'medium' : 'low',
         })) as TrendingTopic[],
         totalResults: response.totalResults,

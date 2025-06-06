@@ -75,9 +75,16 @@ export function useTrendingTopics(filters: TrendingTopicsFilters = {}) {
 
   // Add missing properties for compatibility
   const topics: TrendingTopic[] = (data?.trends || []).map(trend => ({
-    ...trend,
+    keyword: trend.keyword,
+    volume: trend.volume,
     searchVolume: trend.volume,
-    competition: trend.competition || 'medium'
+    trend: trend.trend && trend.trend.length > 1 && trend.trend[trend.trend.length - 1].value > trend.trend[0].value ? 'rising' : 'steady',
+    difficulty: trend.difficulty < 30 ? 'low' : trend.difficulty > 70 ? 'high' : 'medium',
+    competition: trend.competition || 'medium',
+    relatedKeywords: trend.relatedKeywords || [],
+    suggestedKeywords: trend.relatedKeywords || [],
+    trendScore: Math.round((trend.volume / 10000) * 100),
+    category: 'General'
   }))
   const selectedTopic = selectedTrends[0] || null
   const setSelectedTopic = useCallback((topic: string | null) => {
