@@ -1,26 +1,58 @@
 "use client"
 
 import dynamic from 'next/dynamic'
-import { WelcomeHeader } from '../(dashboard)/components/WelcomeHeader'
-import { StatsCards } from '../(dashboard)/components/StatsCards'
-import { QuickActions } from '../(dashboard)/components/QuickActions'
-import { TrendingTopics } from '../(dashboard)/components/TrendingTopics'
-import { RecentArticles } from '../(dashboard)/components/RecentArticles'
-import { ActivityFeed } from '../(dashboard)/components/ActivityFeed'
-import { AIAssistant } from '../(dashboard)/components/AIAssistant'
-
-// Dynamic import RevenueWidget to prevent SSR issues with useTheme
-const RevenueWidget = dynamic(
-  () => import('../(dashboard)/components/RevenueWidget').then(mod => ({ default: mod.RevenueWidget })),
-  { ssr: false }
-)
+import { WelcomeHeader } from './components/WelcomeHeader'
+import { StatsCards } from './components/StatsCards'
+import { QuickActions } from './components/QuickActions'
 import { useDashboardStats } from '@/hooks/useDashboardStats'
 import { useRealtimeUpdates } from '@/hooks/useRealtimeUpdates'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { RefreshCw } from 'lucide-react'
 import { Button } from '@/components/cms/ui/button'
 import { cn } from '@/lib/utils'
+import { Skeleton } from '@/components/cms/ui/skeleton'
+
+// Lazy load heavy components
+const TrendingTopics = dynamic(
+  () => import('./components/TrendingTopics').then(mod => ({ default: mod.TrendingTopics })),
+  { 
+    loading: () => <Skeleton className="h-[400px] w-full" />,
+    ssr: false 
+  }
+)
+
+const RecentArticles = dynamic(
+  () => import('./components/RecentArticles').then(mod => ({ default: mod.RecentArticles })),
+  { 
+    loading: () => <Skeleton className="h-[600px] w-full" />,
+    ssr: false 
+  }
+)
+
+const RevenueWidget = dynamic(
+  () => import('./components/RevenueWidget').then(mod => ({ default: mod.RevenueWidget })),
+  { 
+    loading: () => <Skeleton className="h-[300px] w-full" />,
+    ssr: false 
+  }
+)
+
+const ActivityFeed = dynamic(
+  () => import('./components/ActivityFeed').then(mod => ({ default: mod.ActivityFeed })),
+  { 
+    loading: () => <Skeleton className="h-[400px] w-full" />,
+    ssr: false 
+  }
+)
+
+const AIAssistant = dynamic(
+  () => import('./components/AIAssistant').then(mod => ({ default: mod.AIAssistant })),
+  { 
+    loading: () => <Skeleton className="h-[200px] w-full" />,
+    ssr: false 
+  }
+)
 
 export default function DashboardPage() {
   const { stats, isLoading: statsLoading, error: statsError, refresh: refetch } = useDashboardStats()
@@ -146,7 +178,9 @@ export default function DashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <RevenueWidget />
+            <Suspense fallback={<Skeleton className="h-[300px] w-full" />}>
+              <RevenueWidget />
+            </Suspense>
           </motion.div>
 
           {/* Recent Articles */}
@@ -155,7 +189,9 @@ export default function DashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <RecentArticles />
+            <Suspense fallback={<Skeleton className="h-[600px] w-full" />}>
+              <RecentArticles />
+            </Suspense>
           </motion.div>
         </div>
 
@@ -176,7 +212,9 @@ export default function DashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
           >
-            <AIAssistant />
+            <Suspense fallback={<Skeleton className="h-[200px] w-full" />}>
+              <AIAssistant />
+            </Suspense>
           </motion.div>
 
           {/* Trending Topics */}
@@ -185,7 +223,9 @@ export default function DashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
           >
-            <TrendingTopics />
+            <Suspense fallback={<Skeleton className="h-[400px] w-full" />}>
+              <TrendingTopics />
+            </Suspense>
           </motion.div>
         </div>
       </div>
@@ -196,7 +236,9 @@ export default function DashboardPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.7 }}
       >
-        <ActivityFeed />
+        <Suspense fallback={<Skeleton className="h-[400px] w-full" />}>
+          <ActivityFeed />
+        </Suspense>
       </motion.div>
     </div>
   )
