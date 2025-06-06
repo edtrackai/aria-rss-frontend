@@ -146,3 +146,4 @@ export const apiClient = new ApiClient()
 
 // Convenience exports
 export default apiClient
+export { ApiError }

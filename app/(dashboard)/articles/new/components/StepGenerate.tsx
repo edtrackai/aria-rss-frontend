@@ -52,8 +52,9 @@ export default function StepGenerate({ state, updateState, onComplete }: StepGen
     streamedContent,
     error,
   } = useAIGeneration({
-    onProgress: (content: string) => {
-      updateState({ generatedContent: content });
+    onProgress: (progress: number) => {
+      // Progress is a number from 0-100
+      console.log('Generation progress:', progress);
     },
     onComplete: (result: any) => {
       updateState({

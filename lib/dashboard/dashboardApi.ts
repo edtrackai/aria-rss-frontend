@@ -295,3 +295,4 @@ export class DashboardApiService {
 }
 
 export default DashboardApiService
+export const dashboardApi = DashboardApiService
