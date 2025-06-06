@@ -50,9 +50,7 @@ function Calendar({
         day_hidden: "invisible",
         ...classNames,
       }}
-      components={{
-        DayContent: ({ date, displayMonth }) => <div>{date.getDate()}</div>,
-      }}
+      components={{}}
       {...props}
     />
   )

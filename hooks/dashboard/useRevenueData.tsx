@@ -1,7 +1,7 @@
 "use client"
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { apiClient } from '@/lib/api'
 
 export interface RevenueData {
@@ -230,10 +230,13 @@ export function useRealtimeRevenue() {
     queryKey: ['realtime-revenue'],
     queryFn: () => apiClient.get('/api/v1/revenue/realtime'),
     refetchInterval: 30000, // 30 seconds
-    onSuccess: (data) => {
-      setRealtimeData(data)
-    },
   })
+
+  useEffect(() => {
+    if (data) {
+      setRealtimeData(data)
+    }
+  }, [data])
 
   return realtimeData
 }

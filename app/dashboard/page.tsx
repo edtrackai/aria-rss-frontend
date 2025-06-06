@@ -17,7 +17,7 @@ import { Button } from '@/components/cms/ui/button'
 import { cn } from '@/lib/utils'
 
 export default function DashboardPage() {
-  const { data: stats, isLoading: statsLoading, error: statsError, refetch } = useDashboardStats()
+  const { stats, isLoading: statsLoading, error: statsError, refresh: refetch } = useDashboardStats()
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [lastRefresh, setLastRefresh] = useState(new Date())
 
@@ -127,7 +127,7 @@ export default function DashboardPage() {
 
       {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatsCards stats={stats} isLoading={statsLoading} error={statsError} />
+        <StatsCards stats={stats} isLoading={statsLoading} error={statsError ? new Error(statsError) : null} />
       </div>
 
       {/* Main Content Grid */}

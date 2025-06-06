@@ -20,9 +20,7 @@ export function LoggingProvider({ children }: LoggingProviderProps) {
   // Update logger with user context
   useEffect(() => {
     if (user?.id) {
-      logger.setUser(user.id);
-    } else {
-      logger.setUser(undefined);
+      logger.setUser({ id: user.id, email: user.email, name: `${user.firstName} ${user.lastName}`.trim() });
     }
   }, [user]);
 

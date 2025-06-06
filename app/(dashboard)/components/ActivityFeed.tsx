@@ -36,7 +36,7 @@ const activityColors = {
 export function ActivityFeed() {
   const { data: activities, isLoading, error } = useQuery({
     queryKey: ['recent-activity'],
-    queryFn: () => dashboardApi.getRecentActivity(10),
+    queryFn: () => dashboardApi.getRecentActivity({ limit: 10 }),
     refetchInterval: 30000, // Refetch every 30 seconds
   })
 
@@ -75,10 +75,10 @@ export function ActivityFeed() {
                 </div>
               ))}
             </div>
-          ) : activities && activities.length > 0 ? (
+          ) : activities && activities.items && activities.items.length > 0 ? (
             <AnimatePresence mode="wait">
               <motion.div className="space-y-4">
-                {activities.map((activity, index) => {
+                {activities.items.map((activity, index) => {
                   const Icon = activityIcons[activity.type as keyof typeof activityIcons] || ActivityIcon
                   const colorClass = activityColors[activity.type as keyof typeof activityColors] || 'text-muted-foreground bg-muted'
                   
@@ -112,7 +112,7 @@ export function ActivityFeed() {
                           )}
                           <span className="text-xs text-muted-foreground flex items-center gap-1">
                             <Clock className="h-3 w-3" />
-                            {formatDistanceToNow(new Date(activity.created_at), { addSuffix: true })}
+                            {formatDistanceToNow(new Date(activity.timestamp), { addSuffix: true })}
                           </span>
                         </div>
                       </div>

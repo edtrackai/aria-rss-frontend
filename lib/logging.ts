@@ -293,7 +293,7 @@ class Logger {
         localStorage.setItem('current_user', JSON.stringify(user))
         this.info('User context updated', { userId: user.id })
       } catch (error) {
-        this.warn('Failed to save user context', { error: error.message })
+        this.warn('Failed to save user context', { error: error instanceof Error ? error.message : String(error) })
       }
     }
   }

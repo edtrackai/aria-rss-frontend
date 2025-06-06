@@ -32,7 +32,7 @@ export function WelcomeHeader() {
       className="mb-8"
     >
       <h1 className="text-3xl font-bold tracking-tight">
-        {getGreeting()}, {user?.fullName || `${user?.firstName || 'Writer'} ${user?.lastName || ''}`.trim()}!
+        {getGreeting()}, {`${user?.firstName || 'Writer'} ${user?.lastName || ''}`.trim()}!
       </h1>
       <p className="text-muted-foreground mt-2">
         {getMotivationalMessage()} Today is {format(new Date(), 'EEEE, MMMM d, yyyy')}.

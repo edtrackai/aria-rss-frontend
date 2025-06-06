@@ -6,28 +6,32 @@ import { Skeleton } from '@/components/cms/ui/skeleton'
 import { Button } from '@/components/cms/ui/button'
 import { TrendingUp, TrendingDown, Minus, Sparkles, RefreshCw } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useTrendingTopics } from '@/hooks/dashboard/useTrendingTopics'
+import { useTrendingTopics } from '@/hooks/useTrendingTopics'
 import { cn } from '@/lib/utils'
 
 export function TrendingTopics() {
-  const { data: topics, isLoading, error, refetch } = useTrendingTopics()
+  const { trends: topics, isLoading, error, refreshTrends: refetch } = useTrendingTopics()
 
-  const getTrendIcon = (trend: 'up' | 'down' | 'stable') => {
+  const getTrendIcon = (trend: 'up' | 'down' | 'stable' | 'rising' | 'steady' | 'declining') => {
     switch (trend) {
       case 'up':
+      case 'rising':
         return <TrendingUp className="h-3 w-3 text-green-500" />
       case 'down':
+      case 'declining':
         return <TrendingDown className="h-3 w-3 text-red-500" />
       default:
         return <Minus className="h-3 w-3 text-muted-foreground" />
     }
   }
 
-  const getTrendColor = (trend: 'up' | 'down' | 'stable') => {
+  const getTrendColor = (trend: 'up' | 'down' | 'stable' | 'rising' | 'steady' | 'declining') => {
     switch (trend) {
       case 'up':
+      case 'rising':
         return 'text-green-500 bg-green-500/10'
       case 'down':
+      case 'declining':
         return 'text-red-500 bg-red-500/10'
       default:
         return 'text-muted-foreground bg-muted'

@@ -101,7 +101,7 @@ export default function TrendingSuggestions({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ delay: index * 0.05 }}
-              onHoverStart={() => setHoveredId(topic.id)}
+              onHoverStart={() => setHoveredId(topic.id || '')}
               onHoverEnd={() => setHoveredId(null)}
             >
               <Card
@@ -116,7 +116,7 @@ export default function TrendingSuggestions({
                   <div className="flex-1 min-w-0">
                     <h4 className="font-medium text-sm truncate flex items-center gap-2">
                       {topic.title}
-                      {topic.trendScore > 80 && (
+                      {(topic.trendScore || 0) > 80 && (
                         <Sparkles className="w-3.5 h-3.5 text-yellow-500" />
                       )}
                     </h4>
@@ -126,21 +126,21 @@ export default function TrendingSuggestions({
                       </span>
                       <Badge
                         variant="secondary"
-                        className={cn('text-xs px-2 py-0', getCompetitionColor(topic.competition))}
+                        className={cn('text-xs px-2 py-0', getCompetitionColor(topic.competition || 'unknown'))}
                       >
-                        {topic.competition} competition
+                        {topic.competition || 'unknown'} competition
                       </Badge>
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-1">
                     <div className="text-2xl font-bold text-primary">
-                      {topic.trendScore}
+                      {topic.trendScore || 0}
                     </div>
                     <span className="text-xs text-muted-foreground">score</span>
                   </div>
                 </div>
 
-                {hoveredId === topic.id && topic.suggestedKeywords.length > 0 && (
+                {hoveredId === topic.id && topic.suggestedKeywords && topic.suggestedKeywords.length > 0 && (
                   <motion.div
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
@@ -150,7 +150,7 @@ export default function TrendingSuggestions({
                   >
                     <p className="text-xs text-muted-foreground mb-2">Suggested keywords:</p>
                     <div className="flex flex-wrap gap-1">
-                      {topic.suggestedKeywords.slice(0, 5).map((keyword, i) => (
+                      {topic.suggestedKeywords?.slice(0, 5).map((keyword, i) => (
                         <Badge key={i} variant="outline" className="text-xs px-2 py-0">
                           {keyword}
                         </Badge>

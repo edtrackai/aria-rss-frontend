@@ -12,7 +12,12 @@ export interface DashboardStats {
   totalRevenue: number
   monthlyRevenue: number
   totalClicks: number
+  totalComments: number
   conversionRate: number
+  viewsChange: number
+  revenueChange: number
+  articlesChange: number
+  commentsChange: number
   topPerformingArticles: Array<{
     id: string
     title: string
@@ -72,7 +77,12 @@ export function useDashboardStats(filters: DashboardFilters = {}) {
       totalRevenue: 0,
       monthlyRevenue: 0,
       totalClicks: 0,
+      totalComments: 0,
       conversionRate: 0,
+      viewsChange: 0,
+      revenueChange: 0,
+      articlesChange: 0,
+      commentsChange: 0,
       topPerformingArticles: [],
       recentActivity: [],
       revenueChart: [],

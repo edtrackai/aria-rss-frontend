@@ -7,6 +7,9 @@ export interface CDNConfig {
   imageFormats: string[]
   videoFormats: string[]
   allowedDomains: string[]
+  preconnectDomains: string[]
+  dnsPrefetchDomains: string[]
+  preloadResources: Array<{ href: string; as: string; type?: string; crossOrigin?: string }>
   maxFileSize: number
   imageSizes: Record<string, { width: number; height?: number; quality?: number }>
 }
@@ -21,6 +24,18 @@ export const CDN_CONFIG: CDNConfig = {
     'images.unsplash.com',
     'via.placeholder.com',
     'picsum.photos',
+  ],
+  preconnectDomains: [
+    'https://cdn.newshub.com',
+    'https://fonts.googleapis.com',
+    'https://fonts.gstatic.com',
+  ],
+  dnsPrefetchDomains: [
+    'https://images.unsplash.com',
+    'https://www.google-analytics.com',
+  ],
+  preloadResources: [
+    { href: '/fonts/inter.woff2', as: 'font', type: 'font/woff2' },
   ],
   maxFileSize: 50 * 1024 * 1024, // 50MB
   imageSizes: {

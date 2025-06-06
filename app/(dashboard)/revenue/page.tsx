@@ -173,17 +173,26 @@ export default function RevenueDashboard() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <RevenueChart dateRange={dateRange} />
+              <RevenueChart dateRange={{ 
+                start: dateRange.from || new Date(), 
+                end: dateRange.to || new Date() 
+              }} />
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="products" className="space-y-4">
-          <TopProducts dateRange={dateRange} />
+          <TopProducts dateRange={{ 
+            start: dateRange.from || new Date(), 
+            end: dateRange.to || new Date() 
+          }} />
         </TabsContent>
 
         <TabsContent value="commissions" className="space-y-4">
-          <CommissionTracker dateRange={dateRange} />
+          <CommissionTracker dateRange={{ 
+            start: dateRange.from || new Date(), 
+            end: dateRange.to || new Date() 
+          }} />
         </TabsContent>
 
         <TabsContent value="links" className="space-y-4">

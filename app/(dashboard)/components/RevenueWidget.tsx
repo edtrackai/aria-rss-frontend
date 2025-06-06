@@ -55,12 +55,14 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
 
 export function RevenueWidget() {
   const [days, setDays] = useState(7)
-  const { data: revenue, isLoading, error } = useRevenueData(days)
+  const { revenueData: revenue, isLoading, error } = useRevenueData({ 
+    period: days === 7 ? '7d' : days === 30 ? '30d' : days === 90 ? '90d' : '7d' 
+  })
   const { theme } = useTheme()
   const isDark = theme === 'dark'
 
-  const totalRevenue = revenue?.reduce((sum, item) => sum + item.amount, 0) || 0
-  const avgRevenue = revenue?.length ? totalRevenue / revenue.length : 0
+  const totalRevenue = revenue?.totalRevenue || 0
+  const avgRevenue = revenue?.dailyRevenue || 0
 
   if (error) {
     return (
@@ -125,7 +127,7 @@ export function RevenueWidget() {
               </div>
             </div>
 
-            {revenue && revenue.length > 0 ? (
+            {revenue && revenue.revenueChart && revenue.revenueChart.length > 0 ? (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -133,7 +135,7 @@ export function RevenueWidget() {
                 className="h-[200px]"
               >
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={revenue}>
+                  <AreaChart data={revenue.revenueChart}>
                     <defs>
                       <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#10b981" stopOpacity={0.8}/>
@@ -157,7 +159,7 @@ export function RevenueWidget() {
                     <Tooltip content={<CustomTooltip />} />
                     <Area
                       type="monotone"
-                      dataKey="amount"
+                      dataKey="revenue"
                       stroke="#10b981"
                       fillOpacity={1}
                       fill="url(#colorRevenue)"

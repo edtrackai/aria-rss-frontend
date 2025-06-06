@@ -140,7 +140,7 @@ export function Sidebar({ className }: SidebarProps) {
                     </Link>
                   </Button>
                   
-                  {item.children && pathname.startsWith(item.href) && (
+                  {item.children && pathname && pathname.startsWith(item.href) && (
                     <div className="ml-6 mt-1 space-y-1">
                       {item.children.map((child) => (
                         <Button

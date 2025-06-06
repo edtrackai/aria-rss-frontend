@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react'
-import { QueryClient, QueryClientProvider, useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider, useQuery, useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 interface QueryProviderProps {
@@ -60,7 +60,7 @@ export function useOptimisticMutation<TData, TError, TVariables, TContext>(
 
   return useMutation({
     mutationFn,
-    onMutate: async (variables) => {
+    onMutate: (async (variables: any) => {
       // Cancel outgoing refetches
       await queryClient.cancelQueries({ queryKey: options.queryKey })
       
@@ -73,13 +73,13 @@ export function useOptimisticMutation<TData, TError, TVariables, TContext>(
       )
       
       return { previousData }
-    },
+    }) as any,
     onError: (err, variables, context: any) => {
       // Rollback on error
       if (context?.previousData) {
         queryClient.setQueryData(options.queryKey, context.previousData)
       }
-      options.onError?.(err, variables, context)
+      options.onError?.(err as any, variables, context)
     },
     onSettled: () => {
       // Refetch after error or success
@@ -111,9 +111,11 @@ export function useInfiniteScroll<TData>(
     isFetchingNextPage,
     status,
     error,
-  } = useQuery({
+  } = useInfiniteQuery({
     queryKey,
-    queryFn: () => queryFn({ pageParam: 1 }),
+    queryFn: ({ pageParam = 1 }) => queryFn({ pageParam }),
+    getNextPageParam: (lastPage: any) => lastPage.nextPage,
+    initialPageParam: 1,
     ...options,
   })
 

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { logger } from '@/lib/logging'
-import { useToast } from '@/components/providers/ToastProvider'
+import { useToast } from '@/components/cms/providers/ToastProvider'
 
 interface ServiceWorkerRegistrationProps {
   swPath?: string

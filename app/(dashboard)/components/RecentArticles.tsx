@@ -31,7 +31,7 @@ import Link from 'next/link'
 export function RecentArticles() {
   const { data: articles, isLoading, error } = useQuery({
     queryKey: ['recent-articles'],
-    queryFn: () => dashboardApi.getRecentArticles(5),
+    queryFn: () => dashboardApi.getRecentArticles({ limit: 5 }),
     refetchInterval: 60000,
   })
 
@@ -87,10 +87,10 @@ export function RecentArticles() {
               </div>
             ))}
           </div>
-        ) : articles && articles.length > 0 ? (
+        ) : articles && articles.articles && articles.articles.length > 0 ? (
           <AnimatePresence mode="wait">
             <motion.div className="space-y-4">
-              {articles.map((article, index) => (
+              {articles.articles.map((article, index) => (
                 <motion.div
                   key={article.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -101,7 +101,7 @@ export function RecentArticles() {
                 >
                   <div className="flex items-center gap-4 flex-1">
                     <Avatar>
-                      <AvatarImage src={article.author?.avatar_url} />
+                      <AvatarImage src={article.author?.avatar} />
                       <AvatarFallback>
                         {article.author?.name?.charAt(0).toUpperCase() || 'A'}
                       </AvatarFallback>
@@ -125,7 +125,7 @@ export function RecentArticles() {
                         </span>
                         <span className="flex items-center gap-1">
                           <Clock className="h-3 w-3" />
-                          {formatDistanceToNow(new Date(article.created_at), { addSuffix: true })}
+                          {formatDistanceToNow(new Date(article.publishedAt || Date.now()), { addSuffix: true })}
                         </span>
                         {article.category && (
                           <Badge variant="outline" className="text-xs">

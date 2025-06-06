@@ -54,8 +54,8 @@ export function PerformanceMonitor({
     if (!navigation) return null
 
     return {
-      loadTime: navigation.loadEventEnd - navigation.navigationStart,
-      domContentLoaded: navigation.domContentLoadedEventEnd - navigation.navigationStart,
+      loadTime: navigation.loadEventEnd - navigation.startTime,
+      domContentLoaded: navigation.domContentLoadedEventEnd - navigation.startTime,
       firstPaint: 0, // Will be filled by paint timing
       firstContentfulPaint: 0, // Will be filled by paint timing
       largestContentfulPaint: 0, // Will be filled by LCP observer
@@ -178,7 +178,7 @@ export function PerformanceMonitor({
         for (const entry of list.getEntries()) {
           setMetrics(prev => prev ? {
             ...prev,
-            navigation: { ...prev.navigation, firstInputDelay: entry.processingStart - entry.startTime }
+            navigation: { ...prev.navigation, firstInputDelay: (entry as any).processingStart - entry.startTime }
           } : null)
         }
       })

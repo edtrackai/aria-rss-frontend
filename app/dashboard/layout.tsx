@@ -17,6 +17,7 @@ export default function DashboardLayout({
 
   // Generate breadcrumbs from pathname
   const generateBreadcrumbs = () => {
+    if (!pathname) return []
     const paths = pathname.split('/').filter(Boolean)
     return paths.map((path, index) => {
       const href = '/' + paths.slice(0, index + 1).join('/')
@@ -37,7 +38,7 @@ export default function DashboardLayout({
       </aside>
 
       {/* Mobile navigation */}
-      <MobileNav open={sidebarOpen} onOpenChange={setSidebarOpen} />
+      <MobileNav />
 
       {/* Main content area */}
       <div className="flex flex-1 flex-col overflow-hidden">

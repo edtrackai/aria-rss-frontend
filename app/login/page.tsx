@@ -44,7 +44,7 @@ export default function LoginPage() {
 
     try {
       // Call the real authentication API
-      await login(email, password)
+      await login({ email, password })
       
       toast({
         title: "Login successful",
@@ -57,9 +57,10 @@ export default function LoginPage() {
       // Handle different types of errors
       let errorMessage = "Invalid credentials"
       
-      if (error instanceof ApiError) {
+      if (error && typeof error === 'object' && 'statusCode' in error) {
         // Handle specific HTTP status codes
-        switch (error.status) {
+        const apiError = error as ApiError
+        switch (apiError.statusCode) {
           case 401:
             errorMessage = "Invalid email or password"
             break
@@ -75,7 +76,7 @@ export default function LoginPage() {
             errorMessage = "Server error. Please try again later."
             break
           default:
-            errorMessage = error.message
+            errorMessage = apiError.message || "Server error occurred"
         }
       } else if (error instanceof Error) {
         if (error.message.includes('Network')) {

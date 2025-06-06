@@ -10,7 +10,7 @@ export interface TrendingTopic {
   title?: string;
   volume: number;
   searchVolume: number;
-  trend: 'rising' | 'steady' | 'declining';
+  trend: 'rising' | 'steady' | 'declining' | 'up' | 'down' | 'stable';
   difficulty: 'low' | 'medium' | 'high';
   competition?: 'low' | 'medium' | 'high';
   trendScore?: number;

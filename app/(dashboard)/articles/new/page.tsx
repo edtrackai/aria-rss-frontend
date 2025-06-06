@@ -35,27 +35,24 @@ function ErrorFallback({ error, resetErrorBoundary }: { error: Error; resetError
 
 export default function NewArticlePage() {
   const router = useRouter();
-  const { state, updateState, resetState, saveToLocalStorage, loadFromLocalStorage } = useWizardState();
+  const wizardState = useWizardState();
   const [currentStep, setCurrentStep] = useState(0);
   const [isNavigating, setIsNavigating] = useState(false);
 
   useEffect(() => {
     // Load saved state on mount
-    const savedState = loadFromLocalStorage();
-    if (savedState && savedState.lastStep !== undefined) {
-      setCurrentStep(savedState.lastStep);
-    }
-  }, [loadFromLocalStorage]);
+    wizardState.loadFromLocalStorage();
+  }, []);
 
   useEffect(() => {
-    // Save current step to state
-    updateState({ lastStep: currentStep });
-  }, [currentStep, updateState]);
+    // Save state when it changes
+    wizardState.saveToLocalStorage();
+  }, [wizardState.topic, wizardState.tone, wizardState.style, wizardState.length]);
 
   const handleNext = async () => {
     if (currentStep < STEPS.length - 1) {
       setIsNavigating(true);
-      await saveToLocalStorage();
+      wizardState.saveToLocalStorage();
       setCurrentStep(prev => prev + 1);
       setIsNavigating(false);
     }
@@ -68,7 +65,7 @@ export default function NewArticlePage() {
   };
 
   const handleComplete = () => {
-    resetState();
+    wizardState.resetState();
     toast.success('Article created successfully!');
     router.push('/articles');
   };
@@ -99,7 +96,7 @@ export default function NewArticlePage() {
         <Button
           variant="outline"
           onClick={() => {
-            saveToLocalStorage();
+            wizardState.saveToLocalStorage();
             router.push('/articles');
           }}
         >
@@ -121,8 +118,8 @@ export default function NewArticlePage() {
           >
             <Card className="p-6">
               <CurrentStepComponent
-                state={state}
-                updateState={updateState}
+                state={wizardState}
+                updateState={wizardState.updateState}
                 onNext={handleNext}
                 onComplete={handleComplete}
               />
