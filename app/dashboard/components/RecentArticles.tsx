@@ -38,6 +38,9 @@ interface Article {
     name: string
     avatar?: string
   }
+  category?: {
+    name: string
+  }
 }
 
 interface ArticlesResponse {
