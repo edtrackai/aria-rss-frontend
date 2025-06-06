@@ -1,22 +1,46 @@
+const { withSentryConfig } = require('@sentry/nextjs');
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  compress: true,
+  productionBrowserSourceMaps: false,
+  
+  // Enable TypeScript checking
+  typescript: {
+    ignoreBuildErrors: false,
+  },
+  
+  // Enable ESLint checking
+  eslint: {
+    ignoreDuringBuilds: false,
+  },
+  
   images: {
-    domains: [
-      'ai-reviewed.com',
-      'images.unsplash.com',
-      'cdn.aria-tech.uk'
-    ],
-    formats: ['image/avif', 'image/webp']
+    domains: ['localhost', 'placeholder.com', 'cdn.ai-reviewed.com', 'gimmdayqdhxfflaedles.supabase.co'],
+    formats: ['image/avif', 'image/webp'],
   },
-  env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'https://api.ai-reviewed.com',
-    NEXT_PUBLIC_SITE_NAME: process.env.NEXT_PUBLIC_SITE_NAME || 'ARIA Tech - AI-Reviewed.com',
-    NEXT_PUBLIC_BRAND_TAGLINE: process.env.NEXT_PUBLIC_BRAND_TAGLINE || 'Stop wasting money on tech that disappoints',
-    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  
+  experimental: {
+    optimizeCss: true,
   },
+  
+  webpack: (config, { dev, isServer }) => {
+    // Enable tree shaking for production
+    if (!dev && !isServer) {
+      config.optimization = {
+        ...config.optimization,
+        usedExports: true,
+        sideEffects: false,
+      };
+    }
+    return config;
+  },
+  
   async headers() {
     return [
       {
@@ -24,37 +48,28 @@ const nextConfig = {
         headers: [
           {
             key: 'X-DNS-Prefetch-Control',
-            value: 'on'
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'SAMEORIGIN'
+            value: 'on',
           },
           {
             key: 'X-Content-Type-Options',
-            value: 'nosniff'
+            value: 'nosniff',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
           },
           {
             key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin'
-          }
-        ]
-      }
+            value: 'origin-when-cross-origin',
+          },
+        ],
+      },
     ];
   },
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/:path*`
-      }
-    ];
-  }
-};
-
-// Bundle analyzer
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true'
-});
+}
 
 module.exports = withBundleAnalyzer(nextConfig);
