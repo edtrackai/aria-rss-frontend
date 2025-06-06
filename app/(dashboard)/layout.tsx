@@ -2,9 +2,9 @@
 
 import React from 'react'
 import { usePathname } from 'next/navigation'
-import { Header } from '@/components/layout/Header'
-import { Sidebar } from '@/components/layout/Sidebar'
-import { MobileNav } from '@/components/layout/MobileNav'
+import { Header } from '@/components/cms/layout/Header'
+import { Sidebar } from '@/components/cms/layout/Sidebar'
+import { MobileNav } from '@/components/cms/layout/MobileNav'
 import { cn } from '@/lib/utils'
 
 export default function DashboardLayout({
