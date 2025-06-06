@@ -49,9 +49,18 @@ interface ArticlesResponse {
 }
 
 export function RecentArticles() {
-  const { data: articles, isLoading, error } = useQuery<ArticlesResponse>({
+  const { data: articles, isLoading, error } = useQuery({
     queryKey: ['recent-articles'],
-    queryFn: () => dashboardApi.getRecentArticles({ limit: 5 }),
+    queryFn: async () => {
+      const response = await dashboardApi.getRecentArticles({ limit: 5 })
+      return {
+        articles: response.articles.map((article: any) => ({
+          ...article,
+          slug: article.slug || article.title.toLowerCase().replace(/\s+/g, '-'),
+          category: article.category || { name: 'General' }
+        }))
+      }
+    },
     refetchInterval: 60000,
   })
 

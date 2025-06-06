@@ -17,6 +17,7 @@ export interface ActivityItem {
 export interface Article {
   id: string
   title: string
+  slug: string
   status: 'draft' | 'published' | 'archived'
   author: {
     id: string
@@ -27,6 +28,9 @@ export interface Article {
   views: number
   revenue: number
   excerpt?: string
+  category?: {
+    name: string
+  }
 }
 
 export interface DashboardOverview {
