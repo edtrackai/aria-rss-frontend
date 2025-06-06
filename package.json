@@ -1,6 +1,6 @@
 {
   "name": "ai-reviewed-cms",
-  "version": "2.0.0", 
+  "version": "2.0.0",
   "description": "AI-Reviewed.com - Enhanced with NewsHub CMS",
   "private": true,
   "scripts": {
@@ -23,6 +23,7 @@
     "@next/bundle-analyzer": "^15.3.3",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.0.5",
+    "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-dropdown-menu": "^2.1.15",

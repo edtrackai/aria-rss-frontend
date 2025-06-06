@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/useAuth'
-import { useTheme } from '@/components/providers/ThemeProvider'
+import { useTheme } from '@/components/cms/providers/ThemeProvider'
 import { Button } from '@/components/cms/ui/button'
 import {
   DropdownMenu,
