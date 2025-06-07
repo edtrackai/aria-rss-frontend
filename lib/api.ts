@@ -53,26 +53,26 @@ class ApiClient {
           console.warn('Backend unavailable, using mock data')
           const endpoint = error.config?.url || ''
           
-          // Return mock data based on endpoint
+          // Return mock data based on endpoint with proper structure
           if (endpoint.includes('/dashboard/stats')) {
             const { mockDashboardStats } = await import('./dashboard/mockData')
-            return { data: mockDashboardStats }
+            return { data: { data: mockDashboardStats, success: true } }
           }
           if (endpoint.includes('/dashboard/activity')) {
             const { mockRecentActivity } = await import('./dashboard/mockData')
-            return { data: { items: mockRecentActivity, total: mockRecentActivity.length, hasMore: false } }
+            return { data: { data: { items: mockRecentActivity, total: mockRecentActivity.length, hasMore: false }, success: true } }
           }
           if (endpoint.includes('/dashboard/articles')) {
             const { mockRecentArticles } = await import('./dashboard/mockData')
-            return { data: { articles: mockRecentArticles, total: mockRecentArticles.length } }
+            return { data: { data: { articles: mockRecentArticles, total: mockRecentArticles.length }, success: true } }
           }
           if (endpoint.includes('/dashboard/revenue')) {
             const { mockRevenueData } = await import('./dashboard/mockData')
-            return { data: mockRevenueData }
+            return { data: { data: mockRevenueData, success: true } }
           }
           if (endpoint.includes('/trending-topics')) {
             const { mockTrendingTopics } = await import('./dashboard/mockData')
-            return { data: { trends: mockTrendingTopics, totalResults: mockTrendingTopics.length, lastUpdated: new Date().toISOString() } }
+            return { data: { data: { trends: mockTrendingTopics, totalResults: mockTrendingTopics.length, lastUpdated: new Date().toISOString() }, success: true } }
           }
         }
         if (error.response?.status === 401) {
